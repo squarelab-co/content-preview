@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/pw-creative.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+  <script src="js/jquery.navgoco.min.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/icon.js"></script>
+  <script>
+    const parameters = getParameters();
+    const baseUrl = 'https://preview.contentful.com/spaces/' + parameters.space + '/entries/';
+
+    let md;
+    require(['https://cdnjs.cloudflare.com/ajax/libs/remarkable/2.0.1/remarkable.min.js'], function (remarkable) {
+      md = new remarkable.Remarkable({
+        html: true,
+        breaks: true,
+      });
+    });
+
+    //Get entry
+    fetch(baseUrl + parameters.entry + '?access_token=' + parameters.access_token)
+            .then(response => response.json())
+            .then(function (entry) {
+              console.log(baseUrl + parameters.entry + '?access_token=' + parameters.access_token);
+              $('#content').html(md.render(entry.fields.content));
+            });
+  </script>
+</head>
+<body>
+<div id="container">
+  <ul id="nav"></ul>
+  <div id='content'></div>
+</div>
+</body>
+</html>
