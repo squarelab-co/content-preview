@@ -1,43 +1,49 @@
 /*! Default stylesheet for Kyte */
 
-a {
+.contentful-style-container a {
     color: #2175ff;
     text-decoration: none;
     background-color: transparent;
     -webkit-text-decoration-skip: objects;
 }
 
-blockquote {
+.contentful-style-container blockquote {
     background-color: rgba(0, 0, 0, .04);
     border-radius: 8px;
     margin: 24px;
     padding: 8px 0px;
 }
 
-blockquote h5 {
+.contentful-style-container blockquote h5 {
     margin-top: 16px;
     margin-bottom: 12px;
 }
 
-blockquote h5:after {
+.contentful-style-container blockquote h5:after {
     display: none;
 }
 
-em {
+.contentful-style-container em {
     font-size: 12px;
     line-height: 16px;
     color: rgba(0, 0, 0, .6);
 }
 
-h1, h2, h3, h4, h5, h6,
-p,
-table,
-ul, ol {
+.contentful-style-container h1,
+.contentful-style-container h2,
+.contentful-style-container h3,
+.contentful-style-container h4,
+.contentful-style-container h5,
+.contentful-style-container h6,
+.contentful-style-container p,
+.contentful-style-container table,
+.contentful-style-container ul,
+.contentful-style-container ol {
     margin-left: 24px;
     margin-right: 24px;
 }
 
-h1 {
+.contentful-style-container h1 {
     font-size: 28px;
     font-weight: normal;
     line-height: 40px;
@@ -45,21 +51,21 @@ h1 {
     margin-bottom: 16px;
 }
 
-h2 {
+.contentful-style-container h2 {
     font-size: 22px;
     line-height: 32px;
     margin-top: 40px;
     margin-bottom: 16px;
 }
 
-h3 {
+.contentful-style-container h3 {
     font-size: 18px;
     line-height: 26px;
     margin-top: 24px;
     margin-bottom: 16px;
 }
 
-h4 {
+.contentful-style-container h4 {
     font-size: 18px;
     line-height: 26px;
     font-weight: normal;
@@ -67,14 +73,14 @@ h4 {
     margin-bottom: 16px;
 }
 
-h5 {
+.contentful-style-container h5 {
     font-size: 14px;
     line-height: 24px;
     margin-top: 40px;
     margin-bottom: 24px;
 }
 
-h5:after {
+.contentful-style-container h5:after {
     content: '';
     display: block;
     margin-top: 8px;
@@ -83,7 +89,7 @@ h5:after {
     background-color: rgba(0, 0, 0, .87);
 }
 
-hr {
+.contentful-style-container hr {
     margin-top: 40px;
     margin-bottom: 40px;
     border: 0px;
@@ -91,26 +97,26 @@ hr {
     background-color: rgba(0, 0, 0, .04);
 }
 
-img {
+.contentful-style-container img {
     width: 100%;
 }
 
-li p {
+.contentful-style-container li p {
     margin-left: 0;
     margin-right: 0;
 }
 
-ol, ul {
+.contentful-style-container ol, ul {
     margin-top: -12px;
     padding-left: 16px;
 }
 
-p img {
+.contentful-style-container p img {
     border-radius: 8px;
     display: block;
 }
 
-table {
+.contentful-style-container table {
     border-collapse: collapse;
     width: calc(100% - 48px);
     margin-top: 16px;
@@ -118,36 +124,36 @@ table {
     font-size: 13px;
 }
 
-table th,
-table td {
+.contentful-style-container table th,
+.contentful-style-container table td {
     padding: 8px;
 }
 
-table th {
+.contentful-style-container table th {
     color: #fff;
     background-color: #737795;
     border-bottom: none;
     border-right: 1px solid rgba(0, 0, 0, .12);
 }
 
-table th:first-child {
+.contentful-style-container table th:first-child {
     border-left: 1px solid #737795;
 }
 
-table th:last-child {
+.contentful-style-container table th:last-child {
     border-right: 1px solid #737795;
 }
 
-table td {
+.contentful-style-container table td {
     border-right: 1px solid rgba(0, 0, 0, .12);
     border-bottom: 1px solid rgba(0, 0, 0, .12);
 }
 
-table td:first-child {
+.contentful-style-container table td:first-child {
     border-left: 1px solid rgba(0, 0, 0, .12);
 }
 
-.carousel {
+.contentful-style-container .carousel {
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     list-style: none;
@@ -156,28 +162,28 @@ table td:first-child {
     margin: 0;
 }
 
-.carousel li {
+.contentful-style-container .carousel li {
     position: relative;
     flex: 0 0 calc(100% - 48px);
     padding-right: 12px;
 }
 
-.carousel li:first-child {
+.contentful-style-container .carousel li:first-child {
     padding-left: 24px;
 }
 
-.carousel li:last-child {
+.contentful-style-container .carousel li:last-child {
     padding-right: 24px;
 }
 
-.carousel li img {
+.contentful-style-container .carousel li img {
     scroll-snap-align: center;
     border-radius: 8px;
     height: 192px;
     object-fit: cover;
 }
 
-.button {
+.contentful-style-container .button {
     outline: none;
     border: none;
     border-radius: 4px;
