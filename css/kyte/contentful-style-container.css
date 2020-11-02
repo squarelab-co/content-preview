@@ -1,0 +1,183 @@
+/*! Default stylesheet for Kyte */
+
+a {
+  color: #2175ff;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+blockquote {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+  margin: 24px;
+  padding: 8px 0px;
+}
+
+blockquote h5 {
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+
+blockquote h5:after {
+  display: none;
+}
+
+em {
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+table,
+ul,
+ol {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: normal;
+  line-height: 40px;
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 22px;
+  line-height: 32px;
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+h3 {
+  font-size: 18px;
+  line-height: 26px;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+h4 {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: normal;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  border: 0px;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+img {
+  width: 100%;
+  display: block;
+}
+
+li p {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+ol,
+ul {
+  padding-left: 24px;
+}
+
+p img {
+  border-radius: 4px;
+}
+
+table {
+  border-collapse: collapse;
+  width: calc(100% - 48px);
+  margin-top: 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+table th,
+table td {
+  padding: 8px;
+}
+
+table th {
+  color: #fff;
+  background-color: #737795;
+  border-bottom: none;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+table th:first-child {
+  border-left: 1px solid #737795;
+}
+
+table th:last-child {
+  border-right: 1px solid #737795;
+}
+
+table td {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+table td:first-child {
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.carousel {
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.carousel li {
+  position: relative;
+  flex: 0 0 calc(100% - 48px);
+  padding-right: 12px;
+}
+
+.carousel li:first-child {
+  padding-left: 24px;
+}
+
+.carousel li:last-child {
+  padding-right: 24px;
+}
+
+.carousel li img {
+  scroll-snap-align: center;
+  border-radius: 4px;
+  height: 192px;
+  object-fit: cover;
+}
+
+.button {
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  background-color: #2175ff;
+  line-height: 56px;
+  margin: 24px;
+  padding: 0;
+  text-align: center;
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: none;
+  width: calc(100% - 48px);
+}

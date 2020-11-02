@@ -376,6 +376,11 @@ blockquote h5:after {
     display: none;
 }
 
+blockquote p {
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
 button {
     outline: none;
     border: none;
@@ -459,29 +464,24 @@ hr {
     background-color: rgba(0, 0, 0, .04);
 }
 
+img {
+    width: 100%;
+    display: block;
+}
+
 li p {
     margin-left: 0;
     margin-right: 0;
 }
 
 ol, ul {
-    margin-top: -12px;
-    padding-left: 16px;
+    padding-left: 24px;
 }
 
 p img {
     border-radius: 8px;
     display: block;
     width: 100%;
-}
-
-p:first-child {
-    margin: 0;
-}
-
-p:first-child img {
-    border-radius: 0;
-    margin-bottom: 16px;
 }
 
 table {
