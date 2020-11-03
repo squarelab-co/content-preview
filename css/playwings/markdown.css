@@ -376,11 +376,6 @@ blockquote h5:after {
     display: none;
 }
 
-blockquote p {
-    margin-left: 16px;
-    margin-right: 16px;
-}
-
 button {
     outline: none;
     border: none;
@@ -474,8 +469,14 @@ li p {
     margin-right: 0;
 }
 
-ol, ul {
+ol,
+ul {
     padding-left: 24px;
+}
+
+p + ol,
+p + ul {
+    margin-top: -8px;
 }
 
 p img {
