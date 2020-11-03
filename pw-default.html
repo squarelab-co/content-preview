@@ -24,6 +24,7 @@
     fetch(baseUrl + parameters.entry + '?access_token=' + parameters.access_token)
             .then(response => response.json())
             .then(function (entry) {
+              console.log(baseUrl + parameters.entry + '?access_token=' + parameters.access_token);
               $('#content').html(md.render(entry.fields.content));
             });
   </script>
