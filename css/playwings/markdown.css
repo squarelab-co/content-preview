@@ -376,31 +376,22 @@ blockquote h5:after {
     display: none;
 }
 
-button {
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    background-color: #F63D58;
-    line-height: 56px;
-    margin: 24px;
-    padding: 0;
-    text-align: center;
-    color: #ffffff;
-    font-weight: bold;
-    text-decoration: none;
-    width: calc(100% - 48px);
-}
-
 em {
     font-size: 12px;
     line-height: 16px;
     color: rgba(0, 0, 0, .6);
 }
 
-h1, h2, h3, h4, h5, h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 p,
 table,
-ul, ol {
+ul,
+ol {
     margin-left: 24px;
     margin-right: 24px;
 }
@@ -481,8 +472,6 @@ p + ul {
 
 p img {
     border-radius: 8px;
-    display: block;
-    width: 100%;
 }
 
 table {
@@ -561,4 +550,19 @@ table td:first-child {
     margin-top: -28px;
     margin-right: 8px;
     text-align: right;
+}
+
+.button {
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    background-color: #F63D58;
+    line-height: 56px;
+    margin: 24px;
+    padding: 0;
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    width: calc(100% - 48px);
 }
