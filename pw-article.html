@@ -67,7 +67,9 @@
 
               const images = document.querySelectorAll('#content img');
               for (let i = 0; i < images.length; i++) {
-                images[i].outerHTML += '<div class="alt">' + images[i].alt + '</div>'
+                if (images[i].alt) {
+                  images[i].outerHTML += '<div class="alt">' + images[i].alt + '</div>'
+                }
               }
             });
   </script>
