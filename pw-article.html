@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/playwings/markdown.css">
+  <link rel="stylesheet" href="css/playwings/contentful-style-container.css">
   <link rel="stylesheet" href="css/pw-preview.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -11,7 +11,7 @@
   <script src="js/icon.js"></script>
   <script>
     const parameters = getParameters();
-    const baseUrl = 'https://preview.contentful.com/spaces/' + parameters.space + '/entries/';
+    const baseUrl = 'https://preview.contentful.com/spaces/' + parameters.space + '/entries?sys.id=';
     let md;
     require(['https://cdnjs.cloudflare.com/ajax/libs/remarkable/2.0.1/remarkable.min.js'], function (remarkable) {
       md = new remarkable.Remarkable({
@@ -21,43 +21,13 @@
     });
 
     //Get entry
-    fetch(baseUrl + parameters.entry + '?access_token=' + parameters.access_token)
+    fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
             .then(response => response.json())
-            .then(function (entry) {
-              console.log(baseUrl + parameters.entry + '?access_token=' + parameters.access_token);
+            .then(function (entries) {
+              console.log(baseUrl + parameters.entry + '&access_token=' + parameters.access_token);
 
-              const fields = entry.fields;
-              let category;
-              switch (fields.category) {
-                case "qna":
-                  category = "여행 Q&A";
-                  break;
-
-                case "place":
-                  category = "플레이스";
-                  break;
-
-                case "review":
-                  category = "리뷰";
-                  break;
-
-                case "lifestyle":
-                  category = "라이프스타일";
-                  break;
-
-                case "culture":
-                  category = "컬쳐";
-                  break;
-
-                case "tip":
-                  category = "에디터팁";
-                  break;
-
-                case "special":
-                  category = "스페셜";
-                  break;
-              }
-              $('#sub-title').html(category);
+              const fields = entries.items[0].fields;
+              $('#sub-title').html(entries.includes.Entry[0].fields.text);
               $('#title').html(fields.title);
 
               if (fields.image)
