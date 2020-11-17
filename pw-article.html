@@ -27,16 +27,24 @@
               console.log(baseUrl + parameters.entry + '&access_token=' + parameters.access_token);
 
               const fields = entries.items[0].fields;
-              $('#sub-title').html(entries.includes.Entry[0].fields.text);
+
+              let i;
+              for (i = 0; i < entries.includes.Entry.length; i++) {
+                if (fields.categoryRef.sys.id == entries.includes.Entry[i].sys.id) {
+                  $('#sub-title').html(entries.includes.Entry[i].fields.text);
+                }
+              }
+
               $('#title').html(fields.title);
 
-              if (fields.image)
+              if (fields.image) {
                 $('#hero-image').attr('src', fields.image[0].secure_url);
+              }
 
               $('#content').html(md.render(fields.content));
 
               const images = document.querySelectorAll('#content img');
-              for (let i = 0; i < images.length; i++) {
+              for (i = 0; i < images.length; i++) {
                 if (images[i].alt) {
                   images[i].outerHTML += '<div class="alt">' + images[i].alt + '</div>'
                 }
