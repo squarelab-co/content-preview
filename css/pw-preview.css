@@ -44,12 +44,6 @@
 }
 
 #hero-image {
-    width: auto;
-    height: 100%;
-    position: absolute;
-    top: -9999px;
-    bottom: -9999px;
-    left: -9999px;
-    right: -9999px;
-    margin: auto;
+    min-width: 100%;
+    min-height: 100%;
 }
