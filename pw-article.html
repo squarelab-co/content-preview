@@ -24,14 +24,15 @@
     fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
             .then(response => response.json())
             .then(function (entries) {
-              console.log(baseUrl + parameters.entry + '&access_token=' + parameters.access_token);
 
               const fields = entries.items[0].fields;
-
               let i;
-              for (i = 0; i < entries.includes.Entry.length; i++) {
-                if (fields.categoryRef.sys.id == entries.includes.Entry[i].sys.id) {
-                  $('#sub-title').html(entries.includes.Entry[i].fields.text);
+              
+              if (entries.includes) {
+                for (i = 0; i < entries.includes.Entry.length; i++) {
+                  if (fields.categoryRef.sys.id == entries.includes.Entry[i].sys.id) {
+                    $('#sub-title').html(entries.includes.Entry[i].fields.text);
+                  }
                 }
               }
 
