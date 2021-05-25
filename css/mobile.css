@@ -1,0 +1,21 @@
+@media (max-width: 684px) {
+  #headline-container {
+    margin-top: 11.6959vw;
+    margin-left: 6.7251vw;
+    margin-right: 6.7251vw;
+  }
+
+  #category {
+    font-size: 4.6784vw;
+  }
+
+  #nameKr {
+    font-size: 8.1871vw;
+    margin-top: 5.8480vw;
+  }
+
+  #tagLine {
+    font-size: 4.6784vw;
+    margin-top: 4px;
+  }
+}

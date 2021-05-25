@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  <link rel="stylesheet" href="css/desktop.css">
+  <link rel="stylesheet" href="css/contentful-style-container-for-web.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    const parameters = getParameters();
+    const baseUrl = 'https://preview.contentful.com/spaces/' + parameters.space + '/entries?sys.id=';
+    let md;
+    require(['https://cdnjs.cloudflare.com/ajax/libs/remarkable/2.0.1/remarkable.min.js'], function (remarkable) {
+      md = new remarkable.Remarkable({
+        html: true,
+        breaks: true,
+      });
+    });
+
+    //Get entry
+    fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
+            .then(response => response.json())
+            .then(function (entries) {
+
+              const fields = entries.items[0].fields;
+              let i;
+
+              if (fields.images) {
+                $('#images').attr('src', fields.images[0].secure_url);
+              }
+
+              if (entries.includes) {
+                for (i = 0; i < entries.includes.Entry.length; i++) {
+                  if (fields.categoryRef.sys.id == entries.includes.Entry[i].sys.id) {
+                    $('#category').html(entries.includes.Entry[i].fields.text);
+                  }
+                }
+              }
+
+              $('#nameKr').html(fields.nameKr);
+              $('#tagLine').html(fields.tagLine);
+              $('#content').html(md.render(fields.content));
+
+              $('#map').attr('src', 'https://maps.google.com/maps?z=18&iwloc=B&output=embed&q=' + fields.location.lat + ',' + fields.location.lon);
+
+              $('#address').html(fields.address);
+              $('#phoneNumber').html(fields.phoneNumber);
+              $('#homepage').attr('href', fields.homepage);
+              $('#homepage').html(fields.homepage);
+
+              $('#tips').html(fields.tips);
+              $('#howToGetThere').html(fields.howToGetThere);
+
+              $('#operatingHours').html(fields.operatingHours);
+              $('#holiday').html(fields.holiday);
+
+              let tags = "";
+              for (i = 0; i < fields.tags.length; i++) {
+                tags += "<button class='tag'>#" + fields.tags[i] + "</button>";
+              }
+              $('#tags').html(tags);
+
+              const imgs = document.querySelectorAll('#content img');
+              for (i = 0; i < images.length; i++) {
+                if (imgs[i].alt) {
+                  imgs[i].outerHTML += '<div class="alt">' + imgs[i].alt + '</div>'
+                }
+              }
+            });
+  </script>
+</head>
+<body>
+<div class="contentful-style-container">
+  <div id="cover-container">
+    <picture id="picture">
+      <img id="images" src="">
+    </picture>
+    <div id="cover"></div>
+    <div id="headline-container">
+      <div id="category"></div>
+      <h1 id="nameKr"></h1>
+      <h2 id="tagLine"></h2></div>
+  </div>
+  <div id="content"></div>
+  <hr>
+  <h3>기본 정보</h3>
+  <iframe id="map" src=""></iframe>
+  <ul>
+    <li><Strong>주소 </Strong><span id="address"></span></li>
+    <li><Strong>전화번호 </Strong><span id="phoneNumber"></span></li>
+    <li><Strong>홈페이지 </Strong><a id="homepage" href="" target="_blank"></a></li>
+  </ul>
+  <div class="hairline"></div>
+  <div class="columns">
+    <div class="column-icon"><img src="https://res.cloudinary.com/kyte/image/upload/icon/ic-direction.svg" width="32" height="32"></div>
+    <div>
+      <Strong>가는 방법</Strong><br><span id="howToGetThere"></span>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column-icon"><img src="https://res.cloudinary.com/kyte/image/upload/icon/ic-time.svg" width="32" height="32"></div>
+    <div>
+      <Strong>영업 시간</Strong>
+      <ul>
+        <li id="operatingHours"></li>
+        <li id="holiday"></li>
+      </ul>
+    </div>
+  </div>
+  <hr>
+  <h3>여행 키워드</h3>
+  <div id="tags"></div>
+</div>
+</body>
+</html>
