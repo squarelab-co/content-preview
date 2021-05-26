@@ -85,6 +85,8 @@
                         zoom: 10
                       });
 
+                      map.addControl(new mapboxgl.NavigationControl());
+
                       var marker = new mapboxgl.Marker({
                         color: '#f63d58'
                       }).setLngLat(center).addTo(map);
