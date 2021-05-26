@@ -168,6 +168,7 @@ body {
 
 .swiper-slide img {
   border-radius: 8px;
+  height: 218px;
 }
 
 .swiper-slide {
@@ -179,4 +180,12 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.12);
   background: #ffffff !important;
   cursor: pointer;
+}
+
+.swiper-pagination-bullet {
+  margin: 0 2px !important;
+}
+
+.swiper-pagination-bullets {
+  bottom: 2 !important;
 }
