@@ -1,10 +1,12 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
 @font-face {
-    font-family: 'NanumSquareRound';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+    font-family: 'NanumSquareRoundEB';
+    src: url('https://squarelab-co.github.io/content-preview/fonts/NanumSquareRoundEB.eot');
+    src: url('https://squarelab-co.github.io/content-preview/fonts/NanumSquareRoundEB.eot?#iefix') format('embedded-opentype'),
+    url('https://squarelab-co.github.io/content-preview/fonts/NanumSquareRoundEB.woff2') format('woff2'),
+    url('https://squarelab-co.github.io/content-preview/fonts/NanumSquareRoundEB.woff') format('woff'),
+    url('https://squarelab-co.github.io/content-preview/fonts/NanumSquareRoundEB.ttf') format('truetype');
 }
 
 body {
