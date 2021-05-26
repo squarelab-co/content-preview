@@ -103,6 +103,10 @@ body {
     padding-top: 48px;
 }
 
+#content > p:first-child {
+    margin-top: 0;
+}
+
 #map {
     margin: 0 24px;
     height: 240px;
@@ -167,10 +171,13 @@ body {
 }
 
 .swiper-slide img {
-    border-radius: 8px;
+    position: absolute;
+    top:-100%; left:0; right: 0; bottom:-100%;
+    margin: auto;
 }
 
 .swiper-slide {
+    border-radius: 8px;
     width: calc(100% - 48px) !important;
     overflow: hidden;
 }

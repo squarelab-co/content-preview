@@ -37,7 +37,7 @@
                       if (fields.images) {
                         $('#image').attr('src', fields.images[0].secure_url);
 
-                        if (fields.images.length > 2) {
+                        if (fields.images.length > 1) {
                           let slides = '';
                           for (i = 1; i < fields.images.length; i++) {
                             slides += '<div class="swiper-slide"><img src="' + fields.images[i].secure_url + '"></div>'
@@ -98,7 +98,6 @@
                           pitch: 45
                         });
                       }, 3000);
-
 
                       $('#address').html(fields.address);
                       $('#phoneNumber').html(fields.phoneNumber);

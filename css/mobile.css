@@ -19,7 +19,7 @@
         margin-top: 4px;
     }
 
-    .swiper-slide img {
-        height: 218px;
+    .swiper-slide {
+        height: 218px !important;
     }
 }
