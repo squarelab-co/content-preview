@@ -102,15 +102,40 @@
                       }, 3000);
 
                       $('#address').html(fields.address);
-                      $('#phoneNumber').html(fields.phoneNumber);
-                      $('#homepage').attr('href', fields.homepage);
-                      $('#homepage').html(fields.homepage);
 
-                      $('#tips').html(fields.tips);
+                      if (fields.phoneNumber) {
+                        $('#phoneNumber').html(fields.phoneNumber);
+                      } else {
+                        $('#phoneNumberContainer').hide();
+                      }
+
+                      if (fields.homepage) {
+                        $('#homepage').attr('href', fields.homepage);
+                        $('#homepage').html(fields.homepage);
+                      } else {
+                        $('#homepageContainer').hide();
+                      }
+
                       $('#howToGetThere').html(fields.howToGetThere);
 
-                      $('#operatingHours').html(fields.operatingHours);
-                      $('#holiday').html(fields.holiday);
+                      if (fields.admission) {
+                        $('#admission').html(fields.admission);
+                      } else {
+                        $('#admissionContainer').hide();
+                      }
+
+                      if (fields.operatingHours) {
+                        $('#operatingHours').html(fields.operatingHours);
+                      } else {
+                        $('#operatingContainer').hide();
+                      }
+
+                      if (fields.holiday) {
+                        $('#holiday').html(fields.holiday);
+                      } else {
+                        $('#holidayContainer').hide();
+                      }
+
 
                       if (fields.itemsTitle) {
                         $('#itemsTitle').html(fields.itemsTitle);
@@ -131,7 +156,7 @@
                           slidesOffsetAfter: 24,
                         });
                       } else {
-                        $('#itemsContainer').css('display') == 'none';
+                        $('#itemsContainer').hide();
                       }
 
                       let tags = '';
@@ -150,7 +175,8 @@
                       }
                       */
                     }
-            );
+            )
+    ;
   </script>
 </head>
 <body>
@@ -180,8 +206,8 @@
   <div id="map"></div>
   <ul>
     <li><Strong>주소 </Strong><span id="address"></span></li>
-    <li><Strong>전화번호 </Strong><span id="phoneNumber"></span></li>
-    <li><Strong>홈페이지 </Strong><a id="homepage" href="" target="_blank"></a></li>
+    <li id="phoneNumberContainer"><Strong>전화번호 </Strong><span id="phoneNumber"></span></li>
+    <li id="homepageContainer"><Strong>홈페이지 </Strong><a id="homepage" href="" target="_blank"></a></li>
   </ul>
   <div class="hairline"></div>
   <div class="columns">
@@ -190,14 +216,22 @@
       <Strong>가는 방법</Strong><br><span id="howToGetThere"></span>
     </div>
   </div>
-  <div class="columns">
+  <div class="columns" id="admissionContainer">
+    <div class="column-icon"><img src="https://res.cloudinary.com/kyte/image/upload/icon/ic-card.svg" width="32" height="32"></div>
+    <div>
+      <Strong>입장료</Strong><br><span id="admission"></span>
+    </div>
+  </div>
+  <div class="columns" id="operatingContainer">
     <div class="column-icon"><img src="https://res.cloudinary.com/kyte/image/upload/icon/ic-time.svg" width="32" height="32"></div>
     <div>
-      <Strong>영업 시간</Strong>
-      <ul>
-        <li id="operatingHours"></li>
-        <li id="holiday"></li>
-      </ul>
+      <Strong>영업 시간</Strong><br><span id="operatingHours"></span>
+    </div>
+  </div>
+  <div class="columns" id="holidayContainer">
+    <div class="column-icon"><img src="https://res.cloudinary.com/kyte/image/upload/icon/ic-rest-time.svg" width="32" height="32"></div>
+    <div>
+      <Strong>휴무일</Strong><br><span id="holiday"></span>
     </div>
   </div>
   <div id="itemsContainer">
