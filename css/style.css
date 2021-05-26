@@ -172,12 +172,6 @@ body {
     overflow: hidden;
 }
 
-.swiper-slide img {
-    position: absolute;
-    top:-100%; left:0; right: 0; bottom:-100%;
-    margin: auto;
-}
-
 .swiper-slide {
     border-radius: 8px;
     width: calc(100% - 48px) !important;
@@ -196,4 +190,30 @@ body {
 
 .swiper-pagination-bullets {
     bottom: 2px !important;
+}
+
+#images-swiper-container .swiper-slide img {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    right: 0;
+    bottom: -100%;
+    margin: auto;
+}
+
+#items-swiper-container img {
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+#items-swiper-container .swiper-slide {
+    width: calc((100% - 60px) / 2) !important;
+}
+
+#items-swiper-container .swiper-slide-active {
+
+}
+
+#items-swiper-container .swiper-wrapper {
+
 }

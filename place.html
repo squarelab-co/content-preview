@@ -27,6 +27,7 @@
     });
 
     //Get entry
+    console.log(baseUrl + parameters.entry + '&access_token=' + parameters.access_token);
     fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
             .then(response => response.json())
             .then(function (entries) {
@@ -38,14 +39,14 @@
                         $('#image').attr('src', fields.images[0].secure_url);
 
                         if (fields.images.length > 1) {
-                          let slides = '';
+                          let images = '';
                           for (i = 1; i < fields.images.length; i++) {
-                            slides += '<div class="swiper-slide"><img src="' + fields.images[i].secure_url + '"></div>'
+                            images += '<div class="swiper-slide"><img src="' + fields.images[i].secure_url + '"></div>'
                           }
 
-                          $('.swiper-wrapper').html(slides);
+                          $('#images').html(images);
 
-                          new Swiper('.swiper-container', {
+                          new Swiper('#images-swiper-container', {
                             autoHeight: true,
                             slidesPerView: 'auto',
                             centeredSlides: true,
@@ -55,9 +56,8 @@
                               dynamicBullets: true,
                             }
                           });
-
                         } else {
-                          $('#images').css('display') == 'none';
+                          $('#imagesContainer').css('display') == 'none';
                         }
                       }
 
@@ -110,10 +110,33 @@
                       $('#operatingHours').html(fields.operatingHours);
                       $('#holiday').html(fields.holiday);
 
+                      if (fields.itemsTitle) {
+                        $('#itemsTitle').html(fields.itemsTitle);
+
+                        let items = '';
+                        for (i = 0; i < fields.items.length; i++) {
+                          items += '<div class="swiper-slide"><img src="' + fields.items[i].imageUrl + '">'
+                          items += '<div><strong>' + fields.items[i].title + '</strong><br>';
+                          items += '<span>' + fields.items[i].description + '</span></div></div>';
+                        }
+
+                        $('#items').html(items);
+
+                        new Swiper('#items-swiper-container', {
+                          slidesPerView: 'auto',
+                          spaceBetween: 12,
+                          slidesOffsetBefore: 24,
+                          slidesOffsetAfter: 24,
+                        });
+                      } else {
+                        $('#itemsContainer').css('display') == 'none';
+                      }
+
                       let tags = '';
                       for (i = 0; i < fields.tags.length; i++) {
                         tags += '<button class="tag">#' + fields.tags[i] + '</button>';
                       }
+
                       $('#tags').html(tags);
 
                       /*
@@ -141,11 +164,11 @@
       <h2 id="tagLine"></h2></div>
   </div>
   <div id="content"></div>
-  <hr>
-  <div id="images">
+  <div id="imagesContainer">
+    <hr>
     <h3>사진</h3>
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
+    <div class="swiper-container" id="images-swiper-container">
+      <div class="swiper-wrapper" id="images">
       </div>
       <div class="swiper-pagination"></div>
     </div>
@@ -173,6 +196,14 @@
         <li id="operatingHours"></li>
         <li id="holiday"></li>
       </ul>
+    </div>
+  </div>
+  <div id="itemsContainer">
+    <hr>
+    <h3 id="itemsTitle"></h3>
+    <div class="swiper-container" id="items-swiper-container">
+      <div class="swiper-wrapper" id="items">
+      </div>
     </div>
   </div>
   <hr>

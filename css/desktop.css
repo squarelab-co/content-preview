@@ -18,7 +18,7 @@
         font-size: 32px;
     }
 
-    .swiper-slide {
+    #images-swiper-container .swiper-slide {
         height: 424px !important;
     }
 }
