@@ -1,20 +1,24 @@
 @media (min-width: 685px) {
-  #headline-container {
-    margin-top: 80px;
-    margin-left: 48px;
-    margin-right: 48px;
-  }
+    #headline-container {
+        margin-top: 80px;
+        margin-left: 48px;
+        margin-right: 48px;
+    }
 
-  #category {
-    font-size: 32px;
-  }
+    #category {
+        font-size: 32px;
+    }
 
-  #nameKr {
-    font-size: 56px;
-    margin-top: 40px;
-  }
+    #nameKr {
+        font-size: 56px;
+        margin-top: 40px;
+    }
 
-  #tagLine {
-    font-size: 32px;
-  }
+    #tagLine {
+        font-size: 32px;
+    }
+
+    .swiper-slide img {
+        height: 424px;
+    }
 }
