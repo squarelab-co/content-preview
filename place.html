@@ -7,7 +7,11 @@
   <link rel="stylesheet" href="css/mobile.css">
   <link rel="stylesheet" href="css/desktop.css">
   <link rel="stylesheet" href="css/contentful-style-container-for-web.css">
+  <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.8/swiper-bundle.min.css">
 
+  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.8/swiper-bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
   <script src="js/common.js"></script>
@@ -27,58 +31,109 @@
             .then(response => response.json())
             .then(function (entries) {
 
-              const fields = entries.items[0].fields;
-              let i;
+                      const fields = entries.items[0].fields;
+                      let i;
 
-              if (fields.images) {
-                $('#images').attr('src', fields.images[0].secure_url);
-              }
+                      if (fields.images) {
+                        $('#image').attr('src', fields.images[0].secure_url);
 
-              if (entries.includes) {
-                for (i = 0; i < entries.includes.Entry.length; i++) {
-                  if (fields.categoryRef.sys.id == entries.includes.Entry[i].sys.id) {
-                    $('#category').html(entries.includes.Entry[i].fields.text);
-                  }
-                }
-              }
+                        if (fields.images.length > 2) {
+                          let slides = '';
+                          for (i = 1; i < fields.images.length; i++) {
+                            slides += '<div class="swiper-slide"><img src="' + fields.images[i].secure_url + '"></div>'
+                          }
 
-              $('#nameKr').html(fields.nameKr);
-              $('#tagLine').html(fields.tagLine);
-              $('#content').html(md.render(fields.content));
+                          $('.swiper-wrapper').html(slides);
 
-              $('#map').attr('src', 'https://maps.google.com/maps?z=18&iwloc=B&output=embed&q=' + fields.location.lat + ',' + fields.location.lon);
+                          new Swiper('.swiper-container', {
+                            autoHeight: true,
+                            slidesPerView: 'auto',
+                            centeredSlides: true,
+                            spaceBetween: 12,
+                            pagination: {
+                              el: '.swiper-pagination',
+                              dynamicBullets: true,
+                            }
+                          });
 
-              $('#address').html(fields.address);
-              $('#phoneNumber').html(fields.phoneNumber);
-              $('#homepage').attr('href', fields.homepage);
-              $('#homepage').html(fields.homepage);
+                        } else {
+                          $('#images').css('display') == 'none';
+                        }
+                      }
 
-              $('#tips').html(fields.tips);
-              $('#howToGetThere').html(fields.howToGetThere);
+                      if (entries.includes) {
+                        for (i = 0; i < entries.includes.Entry.length; i++) {
+                          if (fields.categoryRef.sys.id == entries.includes.Entry[i].sys.id) {
+                            $('#category').html(entries.includes.Entry[i].fields.text);
+                          }
+                        }
+                      }
 
-              $('#operatingHours').html(fields.operatingHours);
-              $('#holiday').html(fields.holiday);
+                      $('#nameKr').html(fields.nameKr);
+                      $('#tagLine').html(fields.tagLine);
+                      $('#content').html(md.render(fields.content));
 
-              let tags = "";
-              for (i = 0; i < fields.tags.length; i++) {
-                tags += "<button class='tag'>#" + fields.tags[i] + "</button>";
-              }
-              $('#tags').html(tags);
+                      const center = [fields.location.lon, fields.location.lat];
 
-              const imgs = document.querySelectorAll('#content img');
-              for (i = 0; i < images.length; i++) {
-                if (imgs[i].alt) {
-                  imgs[i].outerHTML += '<div class="alt">' + imgs[i].alt + '</div>'
-                }
-              }
-            });
+                      mapboxgl.accessToken = 'pk.eyJ1IjoibW9zdHNpbXBseSIsImEiOiJjaXZ3NGd3c2wwMTExMnlwYzJqZTdnd2gzIn0.jwi3QPOy8-Y_gteVohAEDQ';
+                      var map = new mapboxgl.Map({
+                        container: 'map',
+                        style: 'mapbox://styles/mapbox/streets-v11',
+                        center: center,
+                        maxZoom: 16,
+                        minZoom: 8,
+                        zoom: 10
+                      });
+
+                      var marker = new mapboxgl.Marker({
+                        color: '#f63d58'
+                      }).setLngLat(center).addTo(map);
+
+                      setTimeout(function () {
+                        map.flyTo({
+                          center: center,
+                          bearing: 90,
+                          zoom: 16,
+                          speed: .5,
+                          pitch: 45
+                        });
+                      }, 3000);
+
+
+                      $('#address').html(fields.address);
+                      $('#phoneNumber').html(fields.phoneNumber);
+                      $('#homepage').attr('href', fields.homepage);
+                      $('#homepage').html(fields.homepage);
+
+                      $('#tips').html(fields.tips);
+                      $('#howToGetThere').html(fields.howToGetThere);
+
+                      $('#operatingHours').html(fields.operatingHours);
+                      $('#holiday').html(fields.holiday);
+
+                      let tags = '';
+                      for (i = 0; i < fields.tags.length; i++) {
+                        tags += '<button class="tag">#' + fields.tags[i] + '</button>';
+                      }
+                      $('#tags').html(tags);
+
+                      /*
+                      const imgs = document.querySelectorAll('#content img');
+                      for (i = 0; i < images.length; i++) {
+                        if (imgs[i].alt) {
+                          imgs[i].outerHTML += '<div class="alt">' + imgs[i].alt + '</div>'
+                        }
+                      }
+                      */
+                    }
+            );
   </script>
 </head>
 <body>
 <div class="contentful-style-container">
   <div id="cover-container">
     <picture id="picture">
-      <img id="images" src="">
+      <img id="image" src="">
     </picture>
     <div id="cover"></div>
     <div id="headline-container">
@@ -88,8 +143,17 @@
   </div>
   <div id="content"></div>
   <hr>
+  <div id="images">
+    <h3>사진</h3>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+  <hr>
   <h3>기본 정보</h3>
-  <iframe id="map" src=""></iframe>
+  <div id="map"></div>
   <ul>
     <li><Strong>주소 </Strong><span id="address"></span></li>
     <li><Strong>전화번호 </Strong><span id="phoneNumber"></span></li>

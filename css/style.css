@@ -49,7 +49,7 @@ body {
   display: table;
 }
 
-#images {
+#image {
   top: 0px;
   left: 0px;
   width: 100%;
@@ -108,7 +108,7 @@ body {
   height: 240px;
   width: calc(100% - 48px);
   border-radius: 8px;
-  border:0
+  border: 0
 }
 
 .columns {
@@ -160,4 +160,23 @@ body {
   border: none;
   height: 1px;
   margin: 24px 24px 32px 24px;
+}
+
+.swiper-container {
+  overflow: hidden;
+}
+
+.swiper-slide img {
+  border-radius: 8px;
+}
+
+.swiper-slide {
+  width: calc(100% - 48px) !important;
+  overflow: hidden;
+}
+
+.swiper-pagination-bullet {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff !important;
+  cursor: pointer;
 }
