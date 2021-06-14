@@ -204,16 +204,9 @@ body {
 #items-swiper-container img {
     border-radius: 8px;
     margin-bottom: 8px;
+    height: 200px;
 }
 
 #items-swiper-container .swiper-slide {
     width: calc((100% - 60px) / 2) !important;
-}
-
-#items-swiper-container .swiper-slide-active {
-
-}
-
-#items-swiper-container .swiper-wrapper {
-
 }
