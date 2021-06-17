@@ -52,10 +52,8 @@
                 }
               }
 
-              console.log(geojson.features);
-
               mapboxgl.accessToken = 'pk.eyJ1IjoibW9zdHNpbXBseSIsImEiOiJjaXZ3NGd3c2wwMTExMnlwYzJqZTdnd2gzIn0.jwi3QPOy8-Y_gteVohAEDQ';
-              var map = new mapboxgl.Map({
+              const map = new mapboxgl.Map({
                 container: 'mapbox',
                 style: 'mapbox://styles/mostsimply/ckpzcsa1f020218ls1gqmjqlw',//'mapbox://styles/mostsimply/ckpyx3mkm0b2l17p8bhe89jj2',
                 center: [126.9040474, 37.5638354],
