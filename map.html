@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  <link rel="stylesheet" href="css/desktop.css">
+  <link rel="stylesheet" href="css/contentful-style-container-for-web.css">
+  <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.8/swiper-bundle.min.css">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css" rel="stylesheet">
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.8/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    fetch('https://preview.contentful.com/spaces/x63mv991hgep/entries?access_token=8e2508e2bd1694c00df73687654485bf812981a764bb8ee9d0a68d0eb1628c2f&content_type=cityGuide')
+            .then(response => response.json())
+            .then(function (result) {
+
+              const items = result.items;
+              const geojson = {'features': []};
+              let item;
+
+              for (let i = 0; i < items.length; i++) {
+                item = items[i];
+                geojson.features.push({
+                  'type': 'Feature',
+                  'properties': {
+                    'id': item.sys.id,
+                    'cityNameKo': item.fields.cityNameKo,
+                  },
+                  'geometry': {
+                    'type': 'Point',
+                    'coordinates': [item.fields.landmarkLocation.lon, item.fields.landmarkLocation.lat]
+                  }
+                });
+                //new mapboxgl.Marker({color: '#f63d58'}).setLngLat([fields.landmarkLocation.lon, fields.landmarkLocation.lat]).addTo(map);
+              }
+
+              mapboxgl.accessToken = 'pk.eyJ1IjoibW9zdHNpbXBseSIsImEiOiJjaXZ3NGd3c2wwMTExMnlwYzJqZTdnd2gzIn0.jwi3QPOy8-Y_gteVohAEDQ';
+              var map = new mapboxgl.Map({
+                container: 'mapbox',
+                style: 'mapbox://styles/mostsimply/ckpzcsa1f020218ls1gqmjqlw',//'mapbox://styles/mostsimply/ckpyx3mkm0b2l17p8bhe89jj2',
+                center: [126.9040474, 37.5638354],
+                zoom: 8
+              });
+
+              map.addControl(new mapboxgl.NavigationControl());
+
+              map.on('load', function () {
+                map.addSource('city-guide', {
+                  type: 'geojson',
+                  data: geojson,
+                  cluster: true,
+                  clusterMaxZoom: 8, // Max zoom to cluster points on
+                  clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+                });
+
+                map.addLayer({
+                  id: 'clusters',
+                  type: 'circle',
+                  source: 'city-guide',
+                  filter: ['has', 'point_count'],
+                  paint: {
+                    'circle-color': '#f63d58',
+                    'circle-stroke-width': 1,
+                    'circle-stroke-color': '#fff',
+                    'circle-radius': ['+', 12, ['/', ['get', 'point_count'], 4]]
+                  }
+                });
+
+                map.addLayer({
+                  id: 'cluster-count',
+                  type: 'symbol',
+                  source: 'city-guide',
+                  filter: ['has', 'point_count'],
+                  layout: {
+                    'text-field': '{point_count_abbreviated}',
+                    'text-font': ['Noto Sans CJK JP Bold'],
+                    'text-size': 12
+                  },
+                  paint: {
+                    'text-color': '#ffffff'
+                  }
+                });
+
+                map.addLayer({
+                  id: 'unclustered-point',
+                  type: 'circle',
+                  source: 'city-guide',
+                  filter: ['!', ['has', 'point_count']],
+                  paint: {
+                    'circle-color': '#f63d58',
+                    'circle-radius': 8,
+                    'circle-stroke-width': 1,
+                    'circle-stroke-color': '#fff'
+                  }
+                });
+
+                map.on('click', 'clusters', function (e) {
+                  let features = map.queryRenderedFeatures(e.point, {
+                    layers: ['clusters']
+                  });
+                  let clusterId = features[0].properties.cluster_id;
+                  map.getSource('city-guide').getClusterExpansionZoom(
+                          clusterId,
+                          function (err, zoom) {
+                            if (err) return;
+                            map.easeTo({
+                              center: features[0].geometry.coordinates,
+                              zoom: zoom
+                            });
+                          }
+                  );
+                });
+
+                map.on('click', 'unclustered-point', function (e) {
+
+                  const feature = e.features[0];
+                  let coordinates = feature.geometry.coordinates.slice();
+
+                  // Ensure that if the map is zoomed out such that
+                  // multiple copies of the feature are visible, the
+                  // popup appears over the copy being pointed to.
+                  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                  }
+
+                  new mapboxgl.Popup()
+                          .setLngLat(coordinates)
+                          .setHTML(
+                                  '<strong>' + feature.properties.cityNameKo + '</strong><br>여행 가능 지역입니다.' +
+                                  '<a href="https://www.playwings.co.kr/cityguides/' + feature.properties.id + '"><br>도시가이드 보기</a>'
+                          )
+                          .addTo(map);
+                });
+
+                map.on('mouseenter', 'clusters', function () {
+                  map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseenter', 'unclustered-point', function () {
+                  map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'clusters', function () {
+                  map.getCanvas().style.cursor = '';
+                });
+              });
+
+              setTimeout(function () {
+                map.flyTo({
+                  zoom: 6,
+                  speed: .5,
+                });
+              }, 1000);
+
+            });
+  </script>
+</head>
+<body>
+<div class="contentful-style-container">
+  <div class="header">
+    <svg width="111" height="27" viewBox="0 0 111 27" fill="none" xmlns="http://www.w3.org/2000/svg" class="jss3">
+      <rect width="111" height="27" fill="white"></rect>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M101.501 19H92V9.49925C92 4.25262 96.2531 0 101.499 0H101.501C106.747 0 111 4.25262 111 9.49925V9.50075C111 14.7474 106.747 19 101.501 19Z" fill="#F63D58"></path>
+      <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M3.09177 17.5519V18.5318C3.22457 20.1919 4.15568 20.4578 4.62074 20.4578C6.05023 20.4578 6.58194 19.4277 6.58194 18.1C6.58194 16.6883 5.98358 15.8416 4.67097 15.8416C4.03929 15.8416 3.22457 16.2237 3.09177 17.5519ZM1.56279 13.1518C2.2273 13.1518 2.94205 13.5001 3.05844 14.1978C3.72345 13.4673 4.62073 13.1682 5.48519 13.1682C7.94527 13.1682 9.73985 14.6793 9.73985 18.1164C9.73985 21.6032 7.74583 23.0645 5.43496 23.0645C4.60432 23.0645 3.69012 22.749 3.09177 21.9853V25.7046C3.09177 26.5851 2.31087 27 1.56279 27C0.814723 27 0 26.5851 0 25.7046V14.4298C0 13.5667 0.814723 13.1518 1.56279 13.1518ZM76.1978 13.1349C76.9622 13.1349 77.7601 13.5503 77.7601 14.4135V21.952C77.7601 25.3558 75.766 26.917 72.7076 26.9503C71.3776 26.9667 70.0645 26.5518 69.3005 25.9371C67.9705 24.8579 69.3169 22.666 70.8628 23.6787C71.3612 23.9943 72.059 24.2268 72.5748 24.2268C74.1038 24.2268 74.6688 23.5296 74.6688 22.0519V21.4869C74.0873 22.4335 72.9732 22.7157 72.2087 22.7157C69.8819 22.7157 67.9705 21.3378 67.9705 18.0498C67.9705 14.8617 70.0978 13.2676 72.0759 13.2676C72.9732 13.2676 74.0366 13.517 74.6688 14.2639C74.7683 13.5001 75.4994 13.1349 76.1978 13.1349ZM35.9974 15.1275L32.3242 23.1808C31.0946 25.9039 29.6979 26.6681 28.1192 26.6681C27.5875 26.6681 27.0056 26.6179 26.5903 26.4847C25.2105 26.0534 25.7422 23.546 27.3547 23.9446C27.5378 23.9943 27.7203 24.0111 27.9531 24.0111C28.5017 24.0111 29.0668 23.6787 29.5154 22.5662L29.5985 22.3669L26.2247 15.2607C25.2772 13.2845 28.2689 12.1719 29.1165 14.1143L31.1777 19.1291L33.1886 13.9483C33.87 12.2216 36.7957 13.3675 35.9974 15.1275ZM39.7858 14.1647L40.883 19.6938L41.9628 14.3968C42.312 12.6203 45.2541 12.6367 45.6196 14.3968L46.7333 19.5442L47.7967 14.0981C48.1295 12.3878 51.1043 12.8693 50.6059 14.8619L48.9437 21.5035C48.3622 23.8454 45.2043 23.7788 44.689 21.4205L43.6748 16.8544L42.7442 21.4871C42.2787 23.7952 39.1039 23.8782 38.506 21.5532L36.794 14.9781C36.2623 12.9359 39.4202 12.2879 39.7858 14.1647ZM83.3263 13.0852C84.706 13.0852 85.67 13.4007 86.235 13.7326C87.6645 14.5625 86.5673 16.7046 85.0716 15.8748C84.6896 15.6586 84.0908 15.4763 83.6088 15.4763C82.7781 15.4763 82.4951 15.7252 82.4951 16.1068C82.4951 16.5059 82.8776 16.7046 83.6088 16.8875L84.3569 17.0867C86.1022 17.535 87 18.4155 87 19.8764C87 21.8029 85.2875 23.2305 82.8776 23.2305C81.6143 23.2305 80.6006 22.9482 79.8694 22.4667C78.5061 21.5698 79.6864 19.3119 81.1825 20.1422C81.6312 20.3912 82.329 20.6401 82.8776 20.6401C83.5426 20.6401 83.958 20.4408 83.958 20.0259C83.958 19.5941 83.6421 19.3949 82.7781 19.1956L81.947 19.0127C80.5673 18.7141 79.4705 17.7675 79.4705 16.1565C79.4705 14.4631 80.8667 13.0852 83.3263 13.0852ZM20.8072 13.0684C23.0345 13.0684 24.8629 14.0647 24.8629 16.4061V21.8025C24.8629 22.7322 24.1481 23.1804 23.3837 23.1804C22.5356 23.1804 21.8875 22.7322 21.8875 21.9854C21.2394 22.7158 19.976 23.0145 19.1285 23.0145C17.5498 23.0145 16.2531 22.1513 16.2531 20.1255C16.2531 17.6181 18.5301 16.8047 20.558 16.8047C21.0066 16.8047 21.6547 16.8379 21.8542 16.8712V16.7386C21.8542 16.024 21.3394 15.7085 20.2755 15.7085C19.8432 15.7085 19.2285 15.8749 18.8296 16.0573C18.4307 16.2402 18.0482 16.3063 17.8323 16.3063C17.1011 16.3063 16.6356 15.6091 16.6356 14.978C16.6356 14.4299 16.835 14.0314 17.317 13.7825C18.1979 13.3174 19.3613 13.0684 20.8072 13.0684ZM12.9466 9.00003C13.6941 9.00003 14.4919 9.41544 14.4919 10.2791V21.8524C14.4919 22.7325 13.6941 23.1643 12.9466 23.1643C12.2149 23.1643 11.4007 22.7325 11.4007 21.8524V10.2791C11.4007 9.41544 12.1816 9.00003 12.9466 9.00003ZM58.7474 13.1515C59.4457 13.1515 60.1933 13.5336 60.26 14.3306C60.9583 13.4337 62.0217 13.1679 62.9359 13.1679C64.8638 13.1679 66.3927 14.3306 66.3927 16.7545V21.8523C66.3927 22.7323 65.5785 23.1641 64.814 23.1641C64.0665 23.1641 63.3015 22.7323 63.3015 21.8523V17.3692C63.3015 16.522 62.9026 15.8914 61.872 15.8914C61.1572 15.8914 60.5091 16.3729 60.2764 17.3861V21.8523C60.2764 22.7323 59.4955 23.1641 58.7474 23.1641C57.9993 23.1641 57.1851 22.7323 57.1851 21.8523V14.43C57.1851 13.5669 57.9993 13.1515 58.7474 13.1515ZM53.5793 13.135C54.3269 13.135 55.1083 13.5504 55.1083 14.4135V21.8526C55.1083 22.7322 54.3104 23.164 53.5624 23.164C52.7979 23.164 52.0165 22.7322 52.0165 21.8526V14.4135C52.0165 13.5504 52.8312 13.135 53.5793 13.135ZM20.9569 18.8469C20.0094 18.8469 19.3115 19.1292 19.3115 19.8432C19.3115 20.4246 19.8099 20.607 20.2088 20.607C21.1564 20.607 21.8711 20.0425 21.8711 19.3284V18.9468C21.705 18.8966 21.3061 18.8469 20.9569 18.8469ZM72.9399 15.7586C71.8595 15.7586 71.112 16.5889 71.112 17.9668C71.112 19.3447 71.677 20.2585 73.0234 20.2585C73.7377 20.2585 74.5524 19.8098 74.6688 18.4319V17.3526C74.5191 16.1407 73.5715 15.7586 72.9399 15.7586ZM53.546 9.1165C54.5099 9.1165 55.258 9.84745 55.258 10.7772C55.258 11.7069 54.5099 12.4045 53.546 12.4045C52.5984 12.4045 51.8673 11.7069 51.8673 10.7772C51.8673 9.84745 52.5984 9.1165 53.546 9.1165Z"
+            fill="#222222"></path>
+    </svg>
+  </div>
+  <div class="tabs">
+    <a href="https://www.playwings.co.kr/?tab=deals" class="tab">특가 상품</a>
+    <a href="https://www.playwings.co.kr/?tab=magazines" class="tab">매거진</a>
+    <a href="" class="tab active">여행 지도</a>
+  </div>
+  <div id="mapbox"></div>
+</div>
+</body>
+</html>
