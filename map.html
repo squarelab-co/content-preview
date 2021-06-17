@@ -26,7 +26,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
   <script src="js/common.js"></script>
   <script>
-    fetch('https://preview.contentful.com/spaces/x63mv991hgep/entries?access_token=8e2508e2bd1694c00df73687654485bf812981a764bb8ee9d0a68d0eb1628c2f&content_type=cityGuide')
+    fetch('https://preview.contentful.com/spaces/x63mv991hgep/entries?access_token=8e2508e2bd1694c00df73687654485bf812981a764bb8ee9d0a68d0eb1628c2f&limit=1000&content_type=cityGuide')
             .then(response => response.json())
             .then(function (result) {
 
@@ -34,20 +34,23 @@
               const geojson = {'features': []};
               let item;
 
+              console.log(items.length);
               for (let i = 0; i < items.length; i++) {
                 item = items[i];
-                geojson.features.push({
-                  'type': 'Feature',
-                  'properties': {
-                    'id': item.sys.id,
-                    'cityNameKo': item.fields.cityNameKo,
-                  },
-                  'geometry': {
-                    'type': 'Point',
-                    'coordinates': [item.fields.landmarkLocation.lon, item.fields.landmarkLocation.lat]
-                  }
-                });
-                //new mapboxgl.Marker({color: '#f63d58'}).setLngLat([fields.landmarkLocation.lon, fields.landmarkLocation.lat]).addTo(map);
+                if (item.fields.landmarkLocation)
+                {
+                  geojson.features.push({
+                    'type': 'Feature',
+                    'properties': {
+                      'id': item.sys.id,
+                      'cityNameKo': item.fields.cityNameKo,
+                    },
+                    'geometry': {
+                      'type': 'Point',
+                      'coordinates': [item.fields.landmarkLocation.lon, item.fields.landmarkLocation.lat]
+                    }
+                  });
+                }
               }
 
               mapboxgl.accessToken = 'pk.eyJ1IjoibW9zdHNpbXBseSIsImEiOiJjaXZ3NGd3c2wwMTExMnlwYzJqZTdnd2gzIn0.jwi3QPOy8-Y_gteVohAEDQ';
@@ -66,7 +69,7 @@
                   data: geojson,
                   cluster: true,
                   clusterMaxZoom: 8, // Max zoom to cluster points on
-                  clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+                  clusterRadius: 40 // Radius of each cluster when clustering points (defaults to 50)
                 });
 
                 map.addLayer({
