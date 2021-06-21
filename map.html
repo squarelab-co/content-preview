@@ -35,9 +35,9 @@
               let item;
 
               for (let i = 0; i < items.length; i++) {
+                //딜은 도시가이드 사용
                 item = items[i];
-                if (item.fields.landmarkLocation)
-                {
+                if (item.fields.landmarkLocation) {
                   geojson.features.push({
                     'type': 'Feature',
                     'properties': {
@@ -52,24 +52,51 @@
                 }
               }
 
+              let matchExpression = ['match', ['get', 'iso_3166_1']];
+              const entries = result.includes.Entry;
+
+              for (i = 0; i < entries.length; i++) {
+                matchExpression.push(entries[i].fields.code, '#ffffff');
+              }
+
+              // Last value is the default, used where there is no data
+              matchExpression.push('rgba(0, 0, 0, 0)');
+
               mapboxgl.accessToken = 'pk.eyJ1IjoibW9zdHNpbXBseSIsImEiOiJjaXZ3NGd3c2wwMTExMnlwYzJqZTdnd2gzIn0.jwi3QPOy8-Y_gteVohAEDQ';
               const map = new mapboxgl.Map({
                 container: 'mapbox',
-                style: 'mapbox://styles/mostsimply/ckpzcsa1f020218ls1gqmjqlw',//'mapbox://styles/mostsimply/ckpyx3mkm0b2l17p8bhe89jj2',
-                center: [126.9040474, 37.5638354],
-                zoom: 8
+                style: 'mapbox://styles/mostsimply/ckq60bw8d2waf17nr4ff6mn19',
+                center: [126.7496511, 35.8138212],
+                zoom: 6
               });
 
               map.addControl(new mapboxgl.NavigationControl());
 
               map.on('load', function () {
+                map.addSource('countries', {
+                  type: 'vector',
+                  url: 'mapbox://mapbox.country-boundaries-v1'
+                });
+
                 map.addSource('city-guide', {
                   type: 'geojson',
                   data: geojson,
                   cluster: true,
-                  clusterMaxZoom: 8, // Max zoom to cluster points on
+                  clusterMaxZoom: 6, // Max zoom to cluster points on
                   clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
                 });
+
+                map.addLayer({
+                          'id': 'countries-join',
+                          'type': 'fill',
+                          'source': 'countries',
+                          'source-layer': 'country_boundaries',
+                          'paint': {
+                            'fill-color': matchExpression
+                          }
+                        },
+                        'admin-1-boundary-bg'
+                );
 
                 map.addLayer({
                   id: 'clusters',
@@ -77,7 +104,7 @@
                   source: 'city-guide',
                   filter: ['has', 'point_count'],
                   paint: {
-                    'circle-color': '#f63d58',
+                    'circle-color': '#737795',
                     'circle-stroke-width': 1,
                     'circle-stroke-color': '#fff',
                     'circle-radius': ['+', 12, ['/', ['get', 'point_count'], 4]]
@@ -105,7 +132,7 @@
                   source: 'city-guide',
                   filter: ['!', ['has', 'point_count']],
                   paint: {
-                    'circle-color': '#f63d58',
+                    'circle-color': '#737795',
                     'circle-radius': 8,
                     'circle-stroke-width': 1,
                     'circle-stroke-color': '#fff'
@@ -144,7 +171,7 @@
                   new mapboxgl.Popup()
                           .setLngLat(coordinates)
                           .setHTML(
-                                  '<strong>' + feature.properties.cityNameKo + '</strong><br>여행 가능 지역입니다.' +
+                                  '<h2>' + feature.properties.cityNameKo + '</h2>여행 가능 지역입니다.' +
                                   '<a href="https://www.playwings.co.kr/cityguides/' + feature.properties.id + '"><br>도시가이드 보기</a>'
                           )
                           .addTo(map);
@@ -160,13 +187,6 @@
                   map.getCanvas().style.cursor = '';
                 });
               });
-
-              setTimeout(function () {
-                map.flyTo({
-                  zoom: 6,
-                  speed: .5,
-                });
-              }, 1000);
 
             });
   </script>

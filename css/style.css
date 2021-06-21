@@ -157,6 +157,10 @@ body {
   padding: 0;
 }
 
+#mapbox h2 {
+  margin: 4px 0;
+}
+
 .columns {
   display: flex;
   margin: 0 24px 32px 24px;
