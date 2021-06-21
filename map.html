@@ -70,12 +70,20 @@
               mapboxgl.accessToken = 'pk.eyJ1IjoibW9zdHNpbXBseSIsImEiOiJjaXZ3NGd3c2wwMTExMnlwYzJqZTdnd2gzIn0.jwi3QPOy8-Y_gteVohAEDQ';
               const map = new mapboxgl.Map({
                 container: 'mapbox',
-                style: 'mapbox://styles/mostsimply/ckq675hom32pb18mk2mvsmuij',
+                style: 'mapbox://styles/mostsimply/ckq6860br1s6u17rsq7avcdwn',
                 center: [126.7496511, 35.8138212],
                 zoom: 6
               });
 
               map.addControl(new mapboxgl.NavigationControl());
+              map.addControl(
+                      new mapboxgl.GeolocateControl({
+                        positionOptions: {
+                          enableHighAccuracy: true
+                        },
+                        trackUserLocation: true
+                      })
+              );
 
               map.on('load', function () {
                 map.addSource('countries', {
