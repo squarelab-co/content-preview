@@ -33,15 +33,20 @@
               const items = result.items;
               const geojson = {'features': []};
               let item;
+              let imageUrl;
 
               for (let i = 0; i < items.length; i++) {
 
                 item = items[i];
                 if (item.fields.landmarkLocation) {
+
+                  if(item.fields.image) imageUrl = item.fields.image[0].secure_url;
+
                   geojson.features.push({
                     'type': 'Feature',
                     'properties': {
                       'id': item.sys.id,
+                      'imageUrl': imageUrl,
                       'cityNameKo': item.fields.cityNameKo,
                     },
                     'geometry': {
@@ -153,7 +158,8 @@
                     new mapboxgl.Popup()
                             .setLngLat(coordinates)
                             .setHTML(
-                                    '<h2>' + feature.properties.cityNameKo + '</h2>여행 가능 지역입니다.' +
+                                    '<img src="' + feature.properties.imageUrl + '">' +
+                                    '<h3>' + feature.properties.cityNameKo + '</h3>여행 가능 지역입니다.' +
                                     '<a href="https://www.playwings.co.kr/cityguides/' + feature.properties.id + '"><br>도시가이드 보기</a>'
                             )
                             .addTo(map);

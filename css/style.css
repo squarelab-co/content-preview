@@ -157,8 +157,12 @@ body {
   padding: 0;
 }
 
-#mapbox h2 {
-  margin: 4px 0;
+#mapbox h3 {
+  margin: 8px 0 2px 0;
+}
+
+.mapboxgl-popup-close-button {
+  display: none;
 }
 
 .columns {
