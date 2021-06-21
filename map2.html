@@ -65,7 +65,7 @@
               mapboxgl.accessToken = 'pk.eyJ1IjoibW9zdHNpbXBseSIsImEiOiJjaXZ3NGd3c2wwMTExMnlwYzJqZTdnd2gzIn0.jwi3QPOy8-Y_gteVohAEDQ';
               const map = new mapboxgl.Map({
                 container: 'mapbox',
-                style: 'mapbox://styles/mostsimply/ckq675hom32pb18mk2mvsmuij',
+                style: 'mapbox://styles/mostsimply/ckq60bw8d2waf17nr4ff6mn19',
                 center: [126.7496511, 35.8138212],
                 zoom: 6
               });
@@ -83,7 +83,7 @@
                   data: geojson,
                   cluster: true,
                   clusterMaxZoom: 6, // Max zoom to cluster points on
-                  clusterRadius: 10 // Radius of each cluster when clustering points (defaults to 50)
+                  clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
                 });
 
                 map.addLayer({
@@ -99,68 +99,93 @@
                 );
 
                 map.addLayer({
-                  'id': 'points',
-                  'type': 'symbol',
-                  'source': 'city-guide',
-                  'layout': {
-                    'icon-image': [
-                      'coalesce',
-                      ['image', 'dot-11']
-                    ],
-                    'text-field': ['get', 'cityNameKo'],
+                  id: 'clusters',
+                  type: 'circle',
+                  source: 'city-guide',
+                  filter: ['has', 'point_count'],
+                  paint: {
+                    'circle-color': '#737795',
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': '#ffffff',
+                    'circle-radius': ['+', 12, ['/', ['get', 'point_count'], 4]]
+                  }
+                });
+
+                map.addLayer({
+                  id: 'cluster-count',
+                  type: 'symbol',
+                  source: 'city-guide',
+                  filter: ['has', 'point_count'],
+                  layout: {
+                    'text-field': '{point_count_abbreviated}',
                     'text-font': ['Noto Sans CJK JP Bold'],
-                    'text-size': 12,
-                    'text-offset': [0, 0.4],
-                    'text-anchor': 'top'
+                    'text-size': 12
                   },
                   paint: {
-                    'text-color': 'rgba(0, 0, 0, .6)',
-                    'text-halo-color': '#ffffff',
-                    'text-halo-width': 1
+                    'text-color': '#ffffff'
                   }
                 });
 
-                map.on('mouseenter', 'points', function () {
-                  map.getCanvas().style.cursor = 'pointer';
+                map.addLayer({
+                  id: 'unclustered-point',
+                  type: 'circle',
+                  source: 'city-guide',
+                  filter: ['!', ['has', 'point_count']],
+                  paint: {
+                    'circle-color': '#737795',
+                    'circle-radius': 8,
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': '#ffffff'
+                  }
                 });
 
-                map.on('click', 'points', function (e) {
+                map.on('click', 'clusters', function (e) {
+                  let features = map.queryRenderedFeatures(e.point, {
+                    layers: ['clusters']
+                  });
+                  let clusterId = features[0].properties.cluster_id;
+                  map.getSource('city-guide').getClusterExpansionZoom(
+                          clusterId,
+                          function (err, zoom) {
+                            if (err) return;
+                            map.easeTo({
+                              center: features[0].geometry.coordinates,
+                              zoom: zoom
+                            });
+                          }
+                  );
+                });
+
+                map.on('click', 'unclustered-point', function (e) {
 
                   const feature = e.features[0];
-                  console.log(feature);
+                  let coordinates = feature.geometry.coordinates.slice();
 
-                  if (feature.properties.cluster) {
-                    map.getSource('city-guide').getClusterExpansionZoom(
-                            feature.properties.cluster_id,
-                            function (err, zoom) {
-                              if (err) return;
-                              map.easeTo({
-                                center: feature.geometry.coordinates,
-                                zoom: zoom
-                              });
-                            }
-                    );
-                  } else {
-                    let coordinates = feature.geometry.coordinates.slice();
-
-                    // Ensure that if the map is zoomed out such that
-                    // multiple copies of the feature are visible, the
-                    // popup appears over the copy being pointed to.
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-
-                    new mapboxgl.Popup()
-                            .setLngLat(coordinates)
-                            .setHTML(
-                                    '<h2>' + feature.properties.cityNameKo + '</h2>여행 가능 지역입니다.' +
-                                    '<a href="https://www.playwings.co.kr/cityguides/' + feature.properties.id + '"><br>도시가이드 보기</a>'
-                            )
-                            .addTo(map);
+                  // Ensure that if the map is zoomed out such that
+                  // multiple copies of the feature are visible, the
+                  // popup appears over the copy being pointed to.
+                  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                   }
 
+                  new mapboxgl.Popup()
+                          .setLngLat(coordinates)
+                          .setHTML(
+                                  '<h2>' + feature.properties.cityNameKo + '</h2>여행 가능 지역입니다.' +
+                                  '<a href="https://www.playwings.co.kr/cityguides/' + feature.properties.id + '"><br>도시가이드 보기</a>'
+                          )
+                          .addTo(map);
                 });
 
+                map.on('mouseenter', 'clusters', function () {
+                  map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseenter', 'unclustered-point', function () {
+                  map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'clusters', function () {
+                  map.getCanvas().style.cursor = '';
+                });
               });
 
             });
