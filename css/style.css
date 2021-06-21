@@ -161,6 +161,10 @@ body {
   margin: 8px 0 2px 0;
 }
 
+.mapboxgl-popup-content {
+  border-radius: 8px !important;
+}
+
 .mapboxgl-popup-close-button {
   display: none;
 }

@@ -32,6 +32,7 @@
 
               const items = result.items;
               const geojson = {'features': []};
+              const key = 'upload/';
               let item;
               let imageUrl;
 
@@ -40,7 +41,10 @@
                 item = items[i];
                 if (item.fields.landmarkLocation) {
 
-                  if (item.fields.image) imageUrl = item.fields.image[0].secure_url;
+                  if (item.fields.image) {
+                    imageUrl = item.fields.image[0].original_url;
+                    imageUrl = 'https://res.cloudinary.com/kyte/image/upload/w_312,h_164,q_auto,f_auto,e_sharpen:50,c_fill,g_auto/' + imageUrl.substr(imageUrl.indexOf(key) + key.length);
+                  }
 
                   geojson.features.push({
                     'type': 'Feature',
@@ -70,7 +74,7 @@
               mapboxgl.accessToken = 'pk.eyJ1IjoibW9zdHNpbXBseSIsImEiOiJjaXZ3NGd3c2wwMTExMnlwYzJqZTdnd2gzIn0.jwi3QPOy8-Y_gteVohAEDQ';
               const map = new mapboxgl.Map({
                 container: 'mapbox',
-                style: 'mapbox://styles/mostsimply/ckq68whwf38qk18qz1g67vie2',
+                style: 'mapbox://styles/mostsimply/ckq69qzg935hn18rzrqui2tjc',
                 center: [126.7496511, 35.8138212],
                 zoom: 6
               });
@@ -128,7 +132,7 @@
                       ['image', 'dot-11']
                     ],
                     'text-field': ['get', 'cityNameKo'],
-                    'text-font': ['Noto Sans CJK JP Bold'],
+                    'text-font': ['Noto Sans CJK JP Medium'],
                     'text-size': 12,
                     'text-offset': [0, 0.4],
                     'text-anchor': 'top'
