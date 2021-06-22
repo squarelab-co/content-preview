@@ -18,9 +18,11 @@
   <link rel="stylesheet" href="css/contentful-style-container-for-web.css">
   <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.8/swiper-bundle.min.css">
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css">
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css">
 
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.8/swiper-bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
@@ -35,8 +37,16 @@
               const key = 'upload/';
               let item;
               let imageUrl;
+              let i;
 
-              for (let i = 0; i < items.length; i++) {
+              const countries = [];
+              const entries = result.includes.Entry;
+
+              for (i = 0; i < entries.length; i++) {
+                countries.push(entries[i].fields.code);
+              }
+
+              for (i = 0; i < items.length; i++) {
 
                 item = items[i];
                 if (item.fields.landmarkLocation) {
@@ -61,23 +71,27 @@
                 }
               }
 
-              let matchExpression = ['match', ['get', 'iso_3166_1']];
-              const entries = result.includes.Entry;
-
-              for (i = 0; i < entries.length; i++) {
-                matchExpression.push(entries[i].fields.code, '#ffffff');
-              }
-
-              // Last value is the default, used where there is no data
-              matchExpression.push('rgba(0, 0, 0, 0)');
 
               mapboxgl.accessToken = 'pk.eyJ1IjoibW9zdHNpbXBseSIsImEiOiJjaXZ3NGd3c2wwMTExMnlwYzJqZTdnd2gzIn0.jwi3QPOy8-Y_gteVohAEDQ';
               const map = new mapboxgl.Map({
                 container: 'mapbox',
-                style: 'mapbox://styles/mostsimply/ckq69qzg935hn18rzrqui2tjc',
+                style: 'mapbox://styles/mostsimply/ckq7lkzcq05ec18mi3ie1t34y',
                 center: [126.7496511, 35.8138212],
                 zoom: 6
               });
+
+              map.addControl(
+                      new MapboxGeocoder({
+                        accessToken: mapboxgl.accessToken,
+                        mapboxgl: mapboxgl,
+                        collapsed: true,
+                        clearAndBlurOnEsc: true,
+                        clearOnBlur: true,
+                        placeholder: '검색'
+                      })
+              );
+
+              map.addControl(new mapboxgl.NavigationControl());
 
               const geoLocate = new mapboxgl.GeolocateControl({
                 positionOptions: {
@@ -93,46 +107,49 @@
                 });
               });
 
-              map.addControl(new mapboxgl.NavigationControl());
               map.addControl(geoLocate);
 
               map.on('load', function () {
-                map.addSource('countries', {
-                  type: 'vector',
-                  url: 'mapbox://mapbox.country-boundaries-v1'
-                });
-
-                map.addSource('city-guide', {
-                  type: 'geojson',
-                  data: geojson,
-                  cluster: true,
-                  clusterMaxZoom: 6, // Max zoom to cluster points on
-                  clusterRadius: 10 // Radius of each cluster when clustering points (defaults to 50)
-                });
-
                 map.addLayer({
-                          'id': 'countries-join',
+                          'id': 'countries-boundaries',
                           'type': 'fill',
-                          'source': 'countries',
+                          'source': {
+                            type: 'vector',
+                            url: 'mapbox://mapbox.country-boundaries-v1'
+                          },
                           'source-layer': 'country_boundaries',
                           'paint': {
-                            'fill-color': matchExpression
+                            'fill-color': '#2d3352',
+                            'fill-opacity': 0.12
                           }
                         },
-                        'admin-1-boundary-bg'
+                        'country-label'
                 );
+
+                map.setFilter('countries-boundaries', [
+                  'all',
+                  ['==', ['get', 'disputed'], 'false'],
+                  ['match', ['get', 'iso_3166_1'], countries, false, true],
+                  ['match', ['get', 'worldview'], ['all', 'US'], true, false]
+                ]);
 
                 map.addLayer({
                   'id': 'points',
                   'type': 'symbol',
-                  'source': 'city-guide',
+                  'source': {
+                    type: 'geojson',
+                    data: geojson,
+                    cluster: true,
+                    clusterMaxZoom: 6, // Max zoom to cluster points on
+                    clusterRadius: 10 // Radius of each cluster when clustering points (defaults to 50)
+                  },
                   'layout': {
                     'icon-image': [
                       'coalesce',
                       ['image', 'dot-11']
                     ],
                     'text-field': ['get', 'cityNameKo'],
-                    'text-font': ['Noto Sans CJK JP Medium'],
+                    'text-font': ['Noto Sans CJK JP Regular'],
                     'text-size': 11,
                     'text-offset': [0, 0.4],
                     'text-anchor': 'top'
@@ -148,11 +165,12 @@
                   map.getCanvas().style.cursor = 'pointer';
                 });
 
+                map.on('mouseleave', 'points', function () {
+                  map.getCanvas().style.cursor = '';
+                });
+
                 map.on('click', 'points', function (e) {
-
                   const feature = e.features[0];
-                  console.log(feature);
-
                   if (feature.properties.cluster) {
                     map.getSource('city-guide').getClusterExpansionZoom(
                             feature.properties.cluster_id,
@@ -174,7 +192,7 @@
                       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                     }
 
-                    new mapboxgl.Popup()
+                    new mapboxgl.Popup({closeButton: false})
                             .setLngLat(coordinates)
                             .setHTML(
                                     '<img src="' + feature.properties.imageUrl + '">' +

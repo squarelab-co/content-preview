@@ -16,6 +16,10 @@ body {
   font-family: Spoqa Han Sans Neo, Roboto, Apple SD Gothic Neo, Malgun Gothic, sans-serif;
 }
 
+input:focus {
+  outline: none !important;
+}
+
 .contentful-style-container {
   color: rgba(0, 0, 0, 0.87);
   display: block;
@@ -161,12 +165,17 @@ body {
   margin: 8px 0 2px 0;
 }
 
-.mapboxgl-popup-content {
-  border-radius: 8px !important;
+.mapboxgl-ctrl-group:not(:empty) {
+  box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%) !important;
 }
 
-.mapboxgl-popup-close-button {
-  display: none;
+.mapboxgl-ctrl-group button {
+  height: 36px !important;
+  width: 36px !important;
+}
+
+.mapboxgl-popup-content {
+  border-radius: 8px !important;
 }
 
 .columns {
