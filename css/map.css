@@ -1,0 +1,95 @@
+#mapbox {
+  height: calc(100vh - 56px - 48px);
+  width: 100%;
+}
+
+#mapbox .mapboxgl-ctrl-icon {
+  padding: 0;
+}
+
+#mapbox h3 {
+  margin: 8px 0 2px 0;
+}
+
+.mapboxgl-ctrl-group:not(:empty) {
+  box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%) !important;
+}
+
+.mapboxgl-ctrl-group button {
+  height: 36px !important;
+  width: 36px !important;
+}
+
+.mapboxgl-popup-content {
+  border-radius: 8px !important;
+}
+
+#backdrop {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  transform: translate(0px, 312px);
+  height: 312px;
+  z-index: 999;
+  border-radius: 20px 20px 0px 0px;
+  background-color: #ffffff;
+  overflow: scroll;
+}
+
+.card {
+  margin: 0 24px 24px 24px;
+  background-color: #ffffff;
+}
+
+.card a {
+  color: rgba(0, 0, 0, .87) !important;
+}
+
+.card img {
+  border-radius: 8px;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 12px;
+  text-align: start;
+  font-weight: bold;
+  line-height: 16px;
+  white-space: pre-line;
+  margin-bottom: 2px;
+}
+
+.title {
+  overflow: hidden;
+  font-size: 16px;
+  text-align: start;
+  font-weight: bold;
+  line-height: 24px;
+  white-space: nowrap;
+  margin-bottom: 2px;
+  text-overflow: ellipsis;
+}
+
+#tags {
+  margin: 4px 0 0 -6px;
+}
+
+.tag {
+  margin-top: 0;
+  margin-left: 6px;
+}
+
+/* mobile */
+@media (max-width: 684px) {
+  #backdrop {
+    width: 100%;
+  }
+}
+
+/* desktop */
+@media (min-width: 685px) {
+  #backdrop {
+    width: 684px;
+  }
+}

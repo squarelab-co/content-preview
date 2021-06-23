@@ -22,4 +22,20 @@
     #images-swiper-container .swiper-slide {
         height: 218px !important;
     }
+
+    .mapboxgl-ctrl-geocoder.mapboxgl-ctrl-geocoder--collapsed {
+        height: 36px !important;
+        width: 36px !important;
+        min-width: 36px !important;
+    }
+
+    .mapboxgl-ctrl-geocoder--icon-search {
+        position: absolute;
+        top: 6px !important;
+        left: 6px !important;
+    }
+
+    .mapboxgl-ctrl-geocoder--input {
+        height: 36px !important;
+    }
 }

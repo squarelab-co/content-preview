@@ -15,15 +15,15 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/mobile.css">
   <link rel="stylesheet" href="css/desktop.css">
+  <link rel="stylesheet" href="css/map.css">
   <link rel="stylesheet" href="css/contentful-style-container-for-web.css">
   <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.8/swiper-bundle.min.css">
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css">
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css">
 
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js"></script>
   <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.8/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
   <script src="js/common.js"></script>
@@ -37,7 +37,11 @@
               const key = 'upload/';
               let item;
               let imageUrl;
+              let countryId;
+              let countryNameKo;
+              let tagsHtml;
               let i;
+              let j;
 
               const countries = [];
               const entries = result.includes.Entry;
@@ -53,7 +57,23 @@
 
                   if (item.fields.image) {
                     imageUrl = item.fields.image[0].original_url;
-                    imageUrl = 'https://res.cloudinary.com/kyte/image/upload/w_312,h_164,q_auto,f_auto,e_sharpen:50,c_fill,g_auto/' + imageUrl.substr(imageUrl.indexOf(key) + key.length);
+                    imageUrl = 'https://res.cloudinary.com/kyte/image/upload/w_624,h_328,q_auto,f_auto,e_sharpen:50,c_fill,g_auto/' + imageUrl.substr(imageUrl.indexOf(key) + key.length);
+                  }
+
+                  countryId = item.fields.country.sys.id;
+                  for (j = 0; j < entries.length; j++) {
+                    if (entries[j].sys.id == countryId) {
+                      countryNameKo = entries[j].fields.nameKo;
+                      break;
+                    }
+                  }
+
+                  if (item.fields.tags) {
+                    tagsHtml = '';
+                    for (j = 0; j < item.fields.tags.length; j++) {
+                      if (j >= 2) break;
+                      tagsHtml += '<button class="tag">#' + item.fields.tags[j] + '</button>';
+                    }
                   }
 
                   geojson.features.push({
@@ -61,7 +81,9 @@
                     'properties': {
                       'id': item.sys.id,
                       'imageUrl': imageUrl,
+                      'countryNameKo': countryNameKo,
                       'cityNameKo': item.fields.cityNameKo,
+                      'tagsHtml': '<div id="tags">' + tagsHtml + '</div>'
                     },
                     'geometry': {
                       'type': 'Point',
@@ -70,7 +92,6 @@
                   });
                 }
               }
-
 
               mapboxgl.accessToken = 'pk.eyJ1IjoibW9zdHNpbXBseSIsImEiOiJjaXZ3NGd3c2wwMTExMnlwYzJqZTdnd2gzIn0.jwi3QPOy8-Y_gteVohAEDQ';
               const map = new mapboxgl.Map({
@@ -119,7 +140,7 @@
                           },
                           'source-layer': 'country_boundaries',
                           'paint': {
-                            'fill-color': '#2d3352',
+                            'fill-color': '#2d3352',//75cff0
                             'fill-opacity': 0.12
                           }
                         },
@@ -133,16 +154,18 @@
                   ['match', ['get', 'worldview'], ['all', 'US'], true, false]
                 ]);
 
+                map.addSource('city-guide', {
+                  type: 'geojson',
+                  data: geojson,
+                  cluster: true,
+                  clusterMaxZoom: 6, // Max zoom to cluster points on
+                  clusterRadius: 10 // Radius of each cluster when clustering points (defaults to 50)
+                });
+
                 map.addLayer({
                   'id': 'points',
                   'type': 'symbol',
-                  'source': {
-                    type: 'geojson',
-                    data: geojson,
-                    cluster: true,
-                    clusterMaxZoom: 6, // Max zoom to cluster points on
-                    clusterRadius: 10 // Radius of each cluster when clustering points (defaults to 50)
-                  },
+                  'source': 'city-guide',
                   'layout': {
                     'icon-image': [
                       'coalesce',
@@ -169,6 +192,10 @@
                   map.getCanvas().style.cursor = '';
                 });
 
+                map.on('click', function (e) {
+                  gsap.to('#backdrop', {y: '312px', duration: 0.3, ease: 'power2.in'});
+                });
+
                 map.on('click', 'points', function (e) {
                   const feature = e.features[0];
                   if (feature.properties.cluster) {
@@ -192,6 +219,21 @@
                       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                     }
 
+                    let cards = '';
+                    cards += '<div class="card">' +
+                                '<a href="https://www.playwings.co.kr/cityguides/' + feature.properties.id + '">' +
+                                    '<img src="' + feature.properties.imageUrl + '">' +
+                                    '<div class="subtitle">' + feature.properties.countryNameKo + '</div>' +
+                                    '<div class="title">' + feature.properties.cityNameKo + '</div>' +
+                                    feature.properties.tagsHtml +
+                                '</a>'+
+                            '</div>';
+
+                    $('#backdrop').html(cards + cards);
+
+                    gsap.to("#backdrop", {y: 1, duration: 0.3, ease: 'power2.out'});
+
+                    /*
                     new mapboxgl.Popup({closeButton: false})
                             .setLngLat(coordinates)
                             .setHTML(
@@ -200,6 +242,8 @@
                                     '<a href="https://www.playwings.co.kr/cityguides/' + feature.properties.id + '"><br>도시가이드 보기</a>'
                             )
                             .addTo(map);
+                    */
+
                   }
 
                 });
@@ -210,7 +254,7 @@
   </script>
 </head>
 <body>
-<div class="contentful-style-container">
+<div class="contentful-style-container" style="padding-bottom: 0">
   <div class="header">
     <svg width="111" height="27" viewBox="0 0 111 27" fill="none" xmlns="http://www.w3.org/2000/svg" class="jss3">
       <rect width="111" height="27" fill="white"></rect>
@@ -224,6 +268,8 @@
     <a href="https://www.playwings.co.kr/?tab=deals" class="tab">특가 상품</a>
     <a href="https://www.playwings.co.kr/?tab=magazines" class="tab">매거진</a>
     <a href="" class="tab active">여행 지도</a>
+  </div>
+  <div id="backdrop">
   </div>
   <div id="mapbox"></div>
 </div>

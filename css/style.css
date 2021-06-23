@@ -152,32 +152,6 @@ input:focus {
   border: 0
 }
 
-#mapbox {
-  height: 100vh;
-  width: 100%;
-}
-
-#mapbox .mapboxgl-ctrl-icon {
-  padding: 0;
-}
-
-#mapbox h3 {
-  margin: 8px 0 2px 0;
-}
-
-.mapboxgl-ctrl-group:not(:empty) {
-  box-shadow: 0 0 10px 2px rgb(0 0 0 / 10%) !important;
-}
-
-.mapboxgl-ctrl-group button {
-  height: 36px !important;
-  width: 36px !important;
-}
-
-.mapboxgl-popup-content {
-  border-radius: 8px !important;
-}
-
 .columns {
   display: flex;
   margin: 0 24px 32px 24px;
@@ -213,8 +187,8 @@ input:focus {
   height: 26px;
   min-width: 0px;
   margin-top: 12px;
-  min-height: 0px;
   margin-left: 16px;
+  min-height: 0px;
   padding: 3px 6px;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.12);
