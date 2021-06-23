@@ -34,11 +34,7 @@
   border-radius: 20px 20px 0px 0px;
   background-color: #ffffff;
   overflow: scroll;
-}
-
-.card {
-  margin: 0 24px 24px 24px;
-  background-color: #ffffff;
+  padding-bottom: 48px;
 }
 
 .card a {
@@ -47,7 +43,6 @@
 
 .card img {
   border-radius: 8px;
-  margin-top: 24px;
   margin-bottom: 8px;
 }
 
@@ -85,11 +80,29 @@
   #backdrop {
     width: 100%;
   }
+  .card {
+    margin: 24px 24px 0px 24px;
+  }
 }
 
 /* desktop */
 @media (min-width: 685px) {
   #backdrop {
     width: 684px;
+  }
+  .card {
+    width: 312px;
+  }
+
+  .card:nth-child(odd) {
+    margin: 24px 12px 0px 24px;
+  }
+
+  .card:nth-child(even) {
+    margin: 24px 24px 0px 0px;
+  }
+
+  .row {
+    display: flex;
   }
 }
