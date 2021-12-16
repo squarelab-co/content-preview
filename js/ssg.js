@@ -17,6 +17,12 @@ function getAirportName(arrival) {
 
         case 'JFK':
             return 'JFK 존 F. 케네디 국제공항';
+
+        case 'PRG':
+            return 'PRG 바츨라프 하벨 국제공항';
+
+        case 'IST':
+            return 'IST 아타투르크 공항';
     }
 }
 
@@ -28,6 +34,9 @@ function getSvgIcon(type) {
 
         case 'train':
             return '<svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6 11h12V7H6v4zm6 6a2 2 0 11.001-4.001A2 2 0 0112 17zM7 5a2 2 0 00-2 2v11h14V7a2 2 0 00-2-2H7zm10.2 15l1.8 1.5v.5H5v-.5L6.8 20H5a2 2 0 01-2-2V7a4 4 0 014-4h10a4 4 0 014 4v11a2 2 0 01-2 2h-1.8z" fill="currentColor"></path></svg>';
+
+        case 'bus':
+            return '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M15 18h4v-2h-4v2zM5 18h4v-2H5v2zm0-4h14V5H5v9zm12 6H7v1a1 1 0 01-1 1H5a1 1 0 01-1-1v-1H3v-8H2V8h1V5a2 2 0 012-2h14a2 2 0 012 2v3h1v4h-1v8h-1v1a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1z" fill="currentColor"></path></svg>';
     }
 }
 
@@ -61,9 +70,6 @@ function getSpecialDate(type) {
 //Get entry
 let cityNameKo;
 console.log(baseUrl + parameters.entry + '&access_token=' + parameters.access_token);
-//뉴욕
-//file:///Users/mostsimply/Documents/GitHub/content-preview/ssg/mo.html?space=x63mv991hgep&entry=6rKnf7oB2wRJnyFi1bL9vb&access_token=8e2508e2bd1694c00df73687654485bf812981a764bb8ee9d0a68d0eb1628c2f
-//https://preview.contentful.com/spaces/x63mv991hgep/entries?sys.id=6rKnf7oB2wRJnyFi1bL9vb&access_token=8e2508e2bd1694c00df73687654485bf812981a764bb8ee9d0a68d0eb1628c2f
 fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
     .then(response => response.json())
     .then(function (entries) {
@@ -161,12 +167,14 @@ fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
             '</dt><dd>' + fields.electricity + '</dd></dl>';
 
         //tipping
-        html += '<dl><dt>' +
-            '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-            '<path fill-rule="evenodd" clip-rule="evenodd" d="M11 5a1 1 0 100 2 1 1 0 000-2zm0-2a3 3 0 110 6 3 3 0 010-6zm7 5a1 1 0 100 2 1 1 0 000-2zm0-2a3 3 0 110 6 3 3 0 010-6zM3 19h1v-7H3v7zm3.001-6L6 18.022l.045.032C7.84 19.314 10.178 20 13 20c3.004 0 5.799-1.156 7.835-3.13l.133-.133-.12-.1a2.985 2.985 0 00-1.643-.63L19 16h-2.111c.072.322.111.656.111 1v1H8v-2l6.79-.001-.034-.079a2.505 2.505 0 00-2.092-1.416L12.5 14.5H9.57A4.986 4.986 0 006.002 13h-.001zM5 10a1 1 0 011 1 6.97 6.97 0 014.33 1.5h2.17c1.333 0 2.53.58 3.354 1.5H19a5 5 0 014.516 2.851C21.151 19.972 17.322 22 13 22c-2.79 0-5.15-.603-7.06-1.658A.998.998 0 015 21H2a1 1 0 01-1-1v-9a1 1 0 011-1h3z" fill="currentColor"></path>' +
-            '</svg>' +
-            '<span>팁 문화</span>' +
-            '</dt><dd>' + fields.tipping + '</dd></dl>';
+        if (fields.tipping) {
+            html += '<dl><dt>' +
+                '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+                '<path fill-rule="evenodd" clip-rule="evenodd" d="M11 5a1 1 0 100 2 1 1 0 000-2zm0-2a3 3 0 110 6 3 3 0 010-6zm7 5a1 1 0 100 2 1 1 0 000-2zm0-2a3 3 0 110 6 3 3 0 010-6zM3 19h1v-7H3v7zm3.001-6L6 18.022l.045.032C7.84 19.314 10.178 20 13 20c3.004 0 5.799-1.156 7.835-3.13l.133-.133-.12-.1a2.985 2.985 0 00-1.643-.63L19 16h-2.111c.072.322.111.656.111 1v1H8v-2l6.79-.001-.034-.079a2.505 2.505 0 00-2.092-1.416L12.5 14.5H9.57A4.986 4.986 0 006.002 13h-.001zM5 10a1 1 0 011 1 6.97 6.97 0 014.33 1.5h2.17c1.333 0 2.53.58 3.354 1.5H19a5 5 0 014.516 2.851C21.151 19.972 17.322 22 13 22c-2.79 0-5.15-.603-7.06-1.658A.998.998 0 015 21H2a1 1 0 01-1-1v-9a1 1 0 011-1h3z" fill="currentColor"></path>' +
+                '</svg>' +
+                '<span>팁 문화</span>' +
+                '</dt><dd>' + fields.tipping + '</dd></dl>';
+        }
 
         //visa
         html += '<dl><dt>' +
