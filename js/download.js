@@ -47,7 +47,7 @@ function onDownloadComplete(blobData) {
             zip.file('index.html', new Blob([document.getElementById("container").innerHTML.trim()], {type: "text/html"}));
             zip.generateAsync({type: "blob"})
                 .then(function (blob) {
-                    saveAs(blob, cityNameKo + '-' + platform + '.zip');
+                    saveAs(blob, title + '-' + platform + '.zip');
                 });
         }
     });

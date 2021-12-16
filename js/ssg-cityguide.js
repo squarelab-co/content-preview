@@ -68,7 +68,7 @@ function getSpecialDate(type) {
 }
 
 //Get entry
-let cityNameKo;
+let title;
 console.log(baseUrl + parameters.entry + '&access_token=' + parameters.access_token);
 fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
     .then(response => response.json())
@@ -86,10 +86,10 @@ fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
         }
 
         //title & image
-        cityNameKo = fields.cityNameKo;
+        title = fields.cityNameKo;
         $('.contVisual').html('<div class="txt">' +
             '<p>' + country + '</p>' +
-            '<h1>' + cityNameKo + '</h1>' +
+            '<h1>' + title + '</h1>' +
             '</div>' +
             '<img src="https://res.cloudinary.com/kyte/image/upload/w_1080,h_1320,e_sharpen:50,c_fill,g_auto/' + fields.image[0].public_id + '.jpg " alt="">');
 
@@ -106,7 +106,7 @@ fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
         //routes
         let arrival = 'ICN';
         let value;
-        html = '<h3>한국에서 ' + cityNameKo + '까지</h3><ul>';
+        html = '<h3>한국에서 ' + title + '까지</h3><ul>';
         for (i = 0; i < fields.routes.length; i++) {
             if (fields.routes[i].publish == 'true') {
                 value = fields.routes[i];
@@ -133,7 +133,7 @@ fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
         $('.talkTip').html(html + '</div>');
 
         //languages
-        html = '<h3>' + cityNameKo + ' 알아가기</h3>' +
+        html = '<h3>' + title + ' 알아가기</h3>' +
             '<div class="inner dp_flex">' +
             '<dl><dt>' +
             '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
@@ -204,7 +204,7 @@ fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
         $('.travelTip').html(html + '</div>');
 
         //specialDates
-        html = '<h3>' + cityNameKo + '의 스페셜데이</h3><div class="inner dp_flex">';
+        html = '<h3>' + title + '의 스페셜데이</h3><div class="inner dp_flex">';
         for (i = 0; i < fields.specialDates.length; i++) {
             value = fields.specialDates[i];
             html += '<dl><dt>' +
@@ -216,7 +216,7 @@ fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
         $('.specialDay').html(html + '</div>');
 
         //columns
-        html = '<h3>' + cityNameKo + ' 언제갈까요?</h3><ul class="dp_flex">';
+        html = '<h3>' + title + ' 언제갈까요?</h3><ul class="dp_flex">';
         for (i = 0; i < fields.columns.length; i++) {
             value = fields.columns[i];
             html += '<li>' +
