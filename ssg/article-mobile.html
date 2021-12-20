@@ -15,19 +15,17 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
   <script src="../js/common.js"></script>
-  <script src="../js/ssg-cityguide.js"></script>
+  <script src="../js/ssg-article.js"></script>
   <script src="../js/download.js"></script>
 </head>
 <body>
 <div id="message"></div>
-<button id="download" onclick='download("pc")'>Download</button>
+<button id="download" onclick='download("mo")'>Download</button>
 <div id="container">
   <style>
-    .promotionType,
+    /* .promotionType,
     .promoContainer,
-    .promotionCon {
-      background: #f2f2f2 !important;
-    }
+    .promotionCon{background:#f2f2f2 !important;} */
 
     #travelContents {
       margin: 0 auto;
@@ -51,6 +49,27 @@
       color: #212121
     }
 
+    #travelContents h5 {
+      color: #212121;
+      font-size: 14px;
+      line-height: 24px;
+      margin-top: 40px;
+      margin-bottom: 24px;
+    }
+
+    #travelContents h5:first-child {
+      margin-top: 18px;
+    }
+
+    #travelContents h5:after {
+      content: "";
+      display: block;
+      margin-top: 8px;
+      width: 16px;
+      height: 2px;
+      background-color: rgba(0, 0, 0, .87);
+    }
+
     #travelContents strong {
       color: #212121
     }
@@ -61,10 +80,72 @@
 
     #travelContents a {
       color: #f63d58;
+      text-decoration: none;
     }
 
     #travelContents p {
       margin-bottom: 16px;
+    }
+
+    #travelContents hr {
+      margin: 40px -24px;
+      border: 0;
+      height: 8px;
+      background-color: rgba(0, 0, 0, .04);
+      display: block;
+    }
+
+    #travelContents table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 16px;
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+
+    #travelContents table th,
+    #travelContents table td {
+      padding: 8px;
+      min-width: 48px;
+    }
+
+    #travelContents table th {
+      color: #fff;
+      background-color: #737795;
+      border-bottom: none;
+      border-right: 1px solid rgba(0, 0, 0, .12);
+    }
+
+    #travelContents table th:first-child {
+      border-left: 1px solid #737795;
+    }
+
+    #travelContents table th:last-child {
+      border-right: 1px solid #737795;
+    }
+
+    #travelContents table td {
+      border-right: 1px solid rgba(0, 0, 0, .12);
+      border-bottom: 1px solid rgba(0, 0, 0, .12);
+    }
+
+    #travelContents table td:first-child {
+      border-left: 1px solid rgba(0, 0, 0, .12);
+    }
+
+    #travelContents .button {
+      outline: none;
+      border: none;
+      border-radius: 4px;
+      background-color: #f63d58;
+      line-height: 56px;
+      padding: 0;
+      text-align: center;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      width: 100%;
+      display: inline-block;
     }
 
     #travelContents .contVisual .txt {
@@ -88,6 +169,7 @@
       font-size: 56px;
       font-weight: bold;
       line-height: 1;
+      white-space: pre-line;
     }
 
     #travelContents .section {
@@ -132,16 +214,6 @@
       display: flex;
       flex-wrap: wrap;
       width: 100%;
-    }
-
-    #travelContents .box {
-      margin: 0 24px;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    #travelContents .box blockquote {
-      margin-bottom: 0;
     }
 
     #travelContents blockquote {
@@ -333,23 +405,38 @@
       border: 1px solid #eaeaea;
       border-radius: 4px;
     }
+
+    /* MO */
+    #travelContents.mPage .contVisual .txt {
+      top: 20vw;
+    }
+
+    #travelContents.mPage .contVisual p {
+      font-size: 4.6vw;
+    }
+
+    #travelContents.mPage .contVisual h1 {
+      margin-top: 5.8vw;
+      font-size: 8.2vw;
+    }
+
+    #travelContents.mPage .section.travelTip dl {
+      width: calc(50% - 8px)
+    }
+
+    #travelContents.mPage .section.specialDay dl {
+      width: 100%;
+    }
+
+    #travelContents.mPage .section.whenGoing li {
+      width: 100%;
+      margin: 0 0 24px;
+    }
   </style>
-  <div class="wrap" id="travelContents">
+  <div class="wrap mPage" id="travelContents">
     <div class="contVisual">
     </div>
-    <div class="box">
-    </div>
     <div class="section travelCon">
-    </div>
-    <div class="section travelRoute">
-    </div>
-    <div class="section talkTip">
-    </div>
-    <div class="section travelTip">
-    </div>
-    <div class="section specialDay">
-    </div>
-    <div class="section whenGoing">
     </div>
     <div class="section travelKeyword">
     </div>
