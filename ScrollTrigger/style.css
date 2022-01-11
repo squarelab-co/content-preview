@@ -32,6 +32,7 @@ body {
 
 .swiper {
     height: 808px;
+    will-change: transform;
 }
 
 img {
