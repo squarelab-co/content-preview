@@ -275,7 +275,7 @@
   text-align: center;
 }
 
-.title-container h6{
+.title-container h6 {
   color: #f63d58;
   margin-block-start: 0;
   margin-block-end: 0;
@@ -286,7 +286,7 @@
   margin-top: 4px;
   margin-bottom: 20px;
   color:rgba(0,0,0,.6);
-  font-size: 13px; 
+  font-size: 13px;
 }
 
 .comments h5 {
@@ -295,7 +295,7 @@
 }
 
 .comments h5::after {
-  background: url("https://cloudinary.squarelab.co/kyte/image/upload/v1654240200/kyte/articles/comment-pw.svg") no-repeat center/24px 20px;  
+  background: url("https://cloudinary.squarelab.co/kyte/image/upload/playwings/article/comments.svg") no-repeat center/24px 20px;
   content: "";
   display: inline-block;
   height: 20px;
@@ -305,14 +305,14 @@
   margin-top: 0 !important;
 }
 
-.comments  h6{
+.comments h6 {
   color: #f63d58;
   font-size: 14px !important;
   margin-block-end: 0;
   margin-block-start: 0;
 }
 
-.comments  p {
+.comments p {
   margin-top: 4px;
   margin-bottom: 20px;
 }
@@ -344,7 +344,7 @@
 
 .price-container p {
   color: rgba(0,0,0,.87);
-  font-size: 13px; 
+  font-size: 13px;
   margin-bottom: 0;
   margin-block-end: 0;
   margin-top: 32px;
