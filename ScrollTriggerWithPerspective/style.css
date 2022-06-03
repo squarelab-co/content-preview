@@ -1,0 +1,64 @@
+.parallax {
+    perspective: 1px;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.object-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: none;
+    justify-content: center;
+}
+
+.speed-1 {
+    transform: translateZ(-1px) scale(2);
+}
+
+.speed-2 {
+    transform: translateZ(0);
+}
+
+.object {
+    margin-left: 250px;
+    height: 100px;
+    width: 300px;
+}
+
+.object-1 {
+    margin-top: 100px;
+    background: red;
+}
+
+.object-2 {
+    margin-top: 200px;
+    background: yellow;
+}
+
+.object-3 {
+    margin-top: 300px;
+    background: blue;
+}
+
+.object-4 {
+    margin-top: 400px;
+    background: green;
+}
+
+.object-5 {
+    margin-top: 500px;
+    background: pink;
+}
+
+.object-6 {
+    margin-top: 600px;
+    background: purple;
+}
+
+.page-content {
+    height: 6000px;
+}
