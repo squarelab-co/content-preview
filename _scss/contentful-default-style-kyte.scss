@@ -315,7 +315,8 @@
   }
 
   .image-circle {
-    width: calc(100% - 48px) !important;
+    width: calc(100% - 72px) !important;
+    max-width: 320px;
     height: auto;
     margin: 0 auto 32px auto;
   }
