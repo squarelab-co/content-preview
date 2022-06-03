@@ -264,8 +264,6 @@
   font-style: italic;
 }
 
-
-/* // Jihyun Start - 카이트, 플윙 공통 스타일 관리를 위해 추가됨 */
 .title-container {
   text-align: center;
 }
@@ -352,6 +350,3 @@
   margin-top: 32px;
   margin-bottom: 4px;
 }
-
-/* Jihyun style end */
-
