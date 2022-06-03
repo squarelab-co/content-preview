@@ -245,7 +245,7 @@
   margin: 40px auto 8px auto;
   color: rgba(0, 0, 0, .12);
   font-size: 40px;
-  font-family: Spoqa Han Sans Neo, Roboto, Apple SD Gothic Neo, Malgun Gothic, sans-serif;
+  font-family: 'IBM Plex Sans KR', sans-serif;;
   font-weight: bold
 }
 
@@ -255,12 +255,12 @@
   margin: 36px auto 24px auto;
   color: rgba(0, 0, 0, .12);
   font-size: 40px;
-  font-family: Spoqa Han Sans Neo, Roboto, Apple SD Gothic Neo, Malgun Gothic, sans-serif;
+  font-family: 'IBM Plex Sans KR', sans-serif;;
   font-weight: bold;
 }
 
 .contentful-style-container code {
-  font-family: Spoqa Han Sans Neo, Roboto, Apple SD Gothic Neo, Malgun Gothic, sans-serif;
+  font-family: 'IBM Plex Sans KR', sans-serif;;
   font-style: italic;
 }
 
