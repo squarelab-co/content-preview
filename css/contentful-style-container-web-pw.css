@@ -1,0 +1,356 @@
+.contentful-style-container {
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.contentful-style-container a {
+  color: #f63d58;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+.contentful-style-container blockquote {
+  background-color: rgba(0,0,0,.04);
+  border-radius: 8px;
+  margin: 24px;
+  padding: 8px 0px;
+}
+
+.contentful-style-container blockquote h5 {
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+
+.contentful-style-container blockquote h5:after {
+  display: none;
+}
+
+.contentful-style-container em {
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(0, 0, 0, .6);
+}
+
+.contentful-style-container h1,
+.contentful-style-container h2,
+.contentful-style-container h3,
+.contentful-style-container h4,
+.contentful-style-container h5,
+.contentful-style-container h6,
+.contentful-style-container p,
+.contentful-style-container table,
+.contentful-style-container ul,
+.contentful-style-container ol {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.contentful-style-container ul ul,
+.contentful-style-container ul ol {
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 4px;
+  padding-left: 16px;
+}
+
+.contentful-style-container ul ul li:last-child,
+.contentful-style-container ol ol li:last-child {
+  margin-bottom: 0px;
+}
+
+.contentful-style-container h1 {
+  font-size: 28px;
+  font-weight: normal;
+  line-height: 40px;
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+.contentful-style-container h2 {
+  font-size: 22px;
+  line-height: 32px;
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+.contentful-style-container h3 {
+  font-size: 18px;
+  line-height: 26px;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+.contentful-style-container h4 {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: normal;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+.contentful-style-container h5 {
+  font-size: 14px;
+  line-height: 24px;
+  margin-top: 40px;
+  margin-bottom: 24px;
+}
+
+.contentful-style-container h5:after {
+  content: '';
+  display: block;
+  margin-top: 8px;
+  width: 16px;
+  height: 2px;
+  background-color: rgba(0,0,0,.87);
+}
+
+.contentful-style-container hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  border: 0px;
+  height: 8px;
+  background-color: rgba(0,0,0,.04);
+}
+
+.contentful-style-container img {
+  width: 100%;
+  display: block;
+}
+
+.contentful-style-container p {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.contentful-style-container li p {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.contentful-style-container li {
+  margin-bottom: 4px;
+}
+
+.contentful-style-container li:last-child {
+  margin-bottom: 16px;
+}
+
+.contentful-style-container ol,
+.contentful-style-container ul {
+  padding-left: 24px;
+}
+
+.contentful-style-container p + ol,
+.contentful-style-container p + ul {
+  margin-top: -8px;
+}
+
+.contentful-style-container p img {
+  border-radius: 8px;
+}
+
+.contentful-style-container table {
+  border-collapse: collapse;
+  width: calc(100% - 48px);
+  margin-top: 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.contentful-style-container table th,
+.contentful-style-container table td {
+  padding: 8px;
+  min-width: 48px;
+}
+
+.contentful-style-container table th {
+  color: #fff;
+  background-color: #737795;
+  border-bottom: none;
+  border-right: 1px solid rgba(0, 0, 0, .12);
+}
+
+.contentful-style-container table th:first-child {
+  border-left: 1px solid #737795;
+}
+
+.contentful-style-container table th:last-child {
+  border-right: 1px solid #737795;
+}
+
+.contentful-style-container table td {
+  border-right: 1px solid rgba(0, 0, 0, .12);
+  border-bottom: 1px solid rgba(0, 0, 0, .12);
+}
+
+.contentful-style-container table td:first-child {
+  border-left: 1px solid rgba(0, 0, 0, .12);
+}
+
+.contentful-style-container .alt {
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, .6);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: bold;
+  margin-top: -24px;
+  margin-right: 8px;
+  text-align: right;
+  display: block;
+  line-height: 24px;
+}
+
+.contentful-style-container .button {
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  background-color: #f63d58;
+  line-height: 56px;
+  padding: 0;
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  width: 100%;
+  display: inline-block;
+}
+
+.contentful-style-container .divider {
+  background-color: rgba(0, 0, 0, .12);
+  border: none;
+  height: 1px;
+  margin: 16px 24px;
+}
+
+.contentful-style-container > h5:first-child,
+.contentful-style-container > p:first-child,
+.contentful-style-container > style + h5 {
+  margin-top: 0;
+}
+
+.contentful-style-container a {
+  line-height: 22px;
+}
+
+.contentful-style-container pre {
+  text-align: center;
+  margin-left: 24px;
+  margin-right: 24px;
+  white-space: break-spaces;
+}
+
+.contentful-style-container pre:before {
+  content: '\201C';
+  display: block;
+  margin: 40px auto 8px auto;
+  color: rgba(0, 0, 0, .12);
+  font-size: 40px;
+  font-family: Spoqa Han Sans Neo, Roboto, Apple SD Gothic Neo, Malgun Gothic, sans-serif;
+  font-weight: bold
+}
+
+.contentful-style-container pre:after {
+  content: '\201D';
+  display: block;
+  margin: 36px auto 24px auto;
+  color: rgba(0, 0, 0, .12);
+  font-size: 40px;
+  font-family: Spoqa Han Sans Neo, Roboto, Apple SD Gothic Neo, Malgun Gothic, sans-serif;
+  font-weight: bold;
+}
+
+.contentful-style-container code {
+  font-family: Spoqa Han Sans Neo, Roboto, Apple SD Gothic Neo, Malgun Gothic, sans-serif;
+  font-style: italic;
+}
+
+
+/* // Jihyun Start - 카이트, 플윙 공통 스타일 관리를 위해 추가됨 */
+.title-container {
+  text-align: center;
+}
+
+.title-container h1 {
+  font-weight: 900 !important;
+  margin-bottom: 4px !important;
+  margin-top: 6px !important;
+  text-align: center;
+}
+
+.title-container h6{
+  color: #f63d58;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-size: 14px !important;
+}
+
+.title-container p {
+  margin-top: 4px;
+  margin-bottom: 20px;
+  color:rgba(0,0,0,.6);
+  font-size: 13px; 
+}
+
+.comments h5 {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.comments h5::after {
+  background: url("https://cloudinary.squarelab.co/kyte/image/upload/v1654240200/kyte/articles/comment-pw.svg") no-repeat center/24px 20px;  
+  content: "";
+  display: inline-block;
+  height: 20px;
+  width: 24px;
+  vertical-align: middle;
+  margin-left: 6px;
+  margin-top: 0 !important;
+}
+
+.comments  h6{
+  color: #f63d58;
+  font-size: 14px !important;
+  margin-block-end: 0;
+  margin-block-start: 0;
+}
+
+.comments  p {
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.image-circle {
+  width: calc(100% - 48px) !important;
+  height: auto;
+  margin: 0 auto 32px auto;
+}
+
+.price-container {
+  text-align: center;
+}
+
+.price-container h4 {
+  margin-top: 0;
+  margin-bottom: 32px;
+  font-weight: bold;
+}
+
+.price-container h4 small {
+  color: #ffffff;
+  background-color: #f63d58;
+  padding: 4px;
+  border-radius: 8px;
+  margin-right: 6px;
+}
+
+.price-container p {
+  color: rgba(0,0,0,.87);
+  font-size: 13px; 
+  margin-bottom: 0;
+  margin-block-end: 0;
+  margin-top: 32px;
+  margin-bottom: 4px;
+}
+
+/* Jihyun style end */
+
