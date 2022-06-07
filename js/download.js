@@ -16,6 +16,7 @@ function downloadFile() {
     url = imgs[count].src;
     url = url.replace('https://cloudinary.squarelab.co', 'https://res.cloudinary.com');
     if (url.indexOf('.jpg') != -1) {
+        //세로형 메인 이미지는 w_1080,h_1320... 원본 파라미터 사용하고, 파라미터 없는 가로형 이미지에만 파라미터 추가
         if (url.indexOf('w_1080') == -1) {
             url = 'https://res.cloudinary.com/kyte/image/upload/w_1080' + url.substring(url.lastIndexOf(key));
         }
