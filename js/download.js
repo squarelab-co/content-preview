@@ -14,6 +14,7 @@ function download(target) {
 
 function downloadFile() {
     url = imgs[count].src;
+    url = url.replace('https://cloudinary.squarelab.co', 'https://res.cloudinary.com');
     if (url.indexOf('.jpg') != -1) {
         if (url.indexOf('w_1080') == -1) {
             url = 'https://res.cloudinary.com/kyte/image/upload/w_1080' + url.substring(url.lastIndexOf(key));
