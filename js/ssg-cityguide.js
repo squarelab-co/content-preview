@@ -94,7 +94,7 @@ fetch(baseUrl + parameters.entry + '&access_token=' + parameters.access_token)
             '<img src="https://res.cloudinary.com/kyte/image/upload/w_1080,h_1320,e_sharpen:50,c_fill,g_auto/' + fields.image[0].public_id + '.jpg " alt="">');
 
         //notice
-        if (fields.notice.length) {
+        if (fields.notice && fields.notice.length) {
             $('.box').html(md.render(fields.notice));
         } else {
             $('.box').remove();
